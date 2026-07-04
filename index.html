@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Où est mon stock? — Solution Réfrigaz</title>
+<style>
+  :root {
+    --navy: #0d2137;
+    --navy-2: #12314f;
+    --ice: #4fc3f7;
+    --ice-dark: #0288d1;
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --text: #1a2b3c;
+    --muted: #64748b;
+    --green: #16a34a;
+    --amber: #d97706;
+    --red: #dc2626;
+    --border: #e2e8f0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Calibri Light', Calibri, 'Segoe UI', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 60%, #1a4a73 100%);
+    color: #fff;
+    padding: 28px 20px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(79,195,247,.15), transparent 50%);
+    pointer-events: none;
+  }
+  header h1 { font-size: 1.9rem; font-weight: 600; letter-spacing: .5px; }
+  header h1 .truck { display: inline-block; margin-right: 8px; }
+  header .sub { color: #a9c9e3; margin-top: 6px; font-size: .95rem; }
+  header .updated { color: #6f93b3; margin-top: 4px; font-size: .8rem; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  /* ---- Stats ---- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: -34px auto 22px;
+    position: relative; z-index: 2;
+  }
+  .stat {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px 14px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(13,33,55,.10);
+    border: 1px solid var(--border);
+  }
+  .stat .num { font-size: 1.65rem; font-weight: 700; color: var(--navy); line-height: 1.1; }
+  .stat .lbl { font-size: .78rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .6px; }
+  .stat .num.small { font-size: 1.15rem; padding-top: 6px; }
+
+  /* ---- Filters ---- */
+  .filters {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .search {
+    flex: 1 1 260px;
+    position: relative;
+  }
+  .search input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    font-size: .95rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .search input:focus { border-color: var(--ice-dark); }
+  .search .icon {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); font-size: .95rem;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 8px 15px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--muted);
+    font-size: .87rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all .15s;
+    font-weight: 600;
+  }
+  .chip:hover { border-color: var(--ice-dark); color: var(--ice-dark); }
+  .chip.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+  /* ---- Shipment cards ---- */
+  .ship-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 18px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(13,33,55,.06);
+  }
+  .ship-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    align-items: center;
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .supplier-badge {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .supplier-dot {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: #fff; font-size: .95rem;
+    flex-shrink: 0;
+  }
+  .supplier-badge .name { font-weight: 700; font-size: 1.05rem; }
+  .supplier-badge .from { font-size: .8rem; color: var(--muted); }
+  .ship-meta {
+    display: flex; flex-wrap: wrap; gap: 6px 16px;
+    font-size: .84rem; color: var(--muted);
+    margin-left: auto;
+  }
+  .ship-meta b { color: var(--text); font-weight: 600; }
+  .badge {
+    padding: 5px 13px; border-radius: 999px;
+    font-size: .8rem; font-weight: 700; letter-spacing: .3px;
+    white-space: nowrap;
+  }
+  .badge.transit { background: #e0f2fe; color: var(--ice-dark); }
+  .badge.imminent { background: #fef3c7; color: var(--amber); }
+  .badge.late { background: #fee2e2; color: var(--red); }
+  .badge.received { background: #dcfce7; color: var(--green); }
+
+  /* ---- Timeline ---- */
+  .timeline { padding: 18px 18px 8px; }
+  .tl-bar {
+    height: 10px; border-radius: 999px;
+    background: var(--border);
+    position: relative;
+    margin: 6px 0 8px;
+  }
+  .tl-fill {
+    height: 100%; border-radius: 999px;
+    background: linear-gradient(90deg, var(--ice-dark), var(--ice));
+    transition: width .5s;
+  }
+  .tl-fill.done { background: linear-gradient(90deg, #15803d, #4ade80); }
+  .tl-fill.late { background: linear-gradient(90deg, var(--amber), var(--red)); }
+  .tl-truck {
+    position: absolute; top: 50%;
+    transform: translate(-50%, -58%);
+    font-size: 1.25rem;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.25));
+  }
+  .tl-labels {
+    display: flex; justify-content: space-between;
+    font-size: .8rem; color: var(--muted);
+  }
+  .tl-labels b { color: var(--text); }
+  .eta-line {
+    text-align: center;
+    padding: 10px 18px 14px;
+    font-size: 1.02rem;
+  }
+  .eta-line b { color: var(--navy); font-size: 1.1rem; }
+  .eta-line .window { color: var(--ice-dark); font-weight: 700; }
+
+  /* ---- Items table ---- */
+  .items { padding: 0 18px 16px; }
+  .items table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  .items th {
+    text-align: left; padding: 8px 10px;
+    background: #f6f9fc; color: var(--muted);
+    font-size: .74rem; text-transform: uppercase; letter-spacing: .6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .items td { padding: 9px 10px; border-bottom: 1px solid #eef2f6; vertical-align: top; }
+  .items tr:last-child td { border-bottom: none; }
+  .items .sku { font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .items .qty { font-weight: 700; text-align: center; }
+  .items .serials { font-size: .8rem; color: var(--muted); font-family: 'Consolas', monospace; }
+  .items mark { background: #fde68a; border-radius: 3px; padding: 0 2px; }
+
+  .empty {
+    text-align: center; padding: 50px 20px; color: var(--muted);
+    background: var(--card); border: 1px dashed var(--border); border-radius: 14px;
+  }
+  .empty .big { font-size: 2.4rem; margin-bottom: 8px; }
+
+  footer {
+    max-width: 1100px; margin: 30px auto 0; padding: 18px 16px 40px;
+    font-size: .82rem; color: var(--muted); text-align: center; line-height: 1.6;
+  }
+  footer .how {
+    background: #eaf3fb; border: 1px solid #cfe4f5; border-radius: 10px;
+    padding: 12px 16px; display: inline-block; text-align: left; max-width: 640px;
+  }
+  @media (max-width: 640px) {
+    .ship-meta { margin-left: 0; }
+    header h1 { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="truck">🚚</span>Où est mon stock?</h1>
+  <div class="sub">Suivi des shipments fournisseurs — Solution Réfrigaz</div>
+  <div class="updated" id="updated"></div>
+</header>
+
+<div class="wrap">
+  <div class="stats" id="stats"></div>
+
+  <div class="filters">
+    <div class="search">
+      <span class="icon">🔍</span>
+      <input type="text" id="search" placeholder="Chercher un item, # série, PO, facture…">
+    </div>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div id="list"></div>
+</div>
+
+<footer>
+  <div class="how">
+    <b>Comment lire l'ETA :</b> l'arrivée est estimée à partir de la date de shipping + le délai de transit
+    typique du fournisseur (jours ouvrables). La fourchette s'ajuste au fur et à mesure qu'on accumule
+    l'historique réel des livraisons.<br><br>
+    <b>Nouveau shipment reçu par courriel?</b> Envoyez la facture PDF à Mathieu — le dashboard est mis à
+    jour et republié en quelques minutes.
+  </div>
+</footer>
+
+<script>
+/* ================================================================
+   DONNÉES — mises à jour via Claude à chaque nouvelle facture.
+   Dernière mise à jour : voir LAST_UPDATED.
+   ================================================================ */
+const LAST_UPDATED = "2026-07-02";
+
+const SUPPLIERS = {
+  "nova-kool": {
+    name: "Nova Kool Mfg ULC",
+    city: "Coquitlam, BC",
+    carrier: "ELEMENT",
+    transitMin: 7,   // jours ouvrables — estimé standard BC → QC (LTL)
+    transitMax: 10,
+    color: "#0288d1",
+    initials: "NK"
+  }
+  // Ajouter les prochains fournisseurs ici (Victron, SOK, etc.)
+};
+
+const SHIPMENTS = [
+  {
+    invoice: "C00075765",
+    supplier: "nova-kool",
+    po: "2305",
+    shipDate: "2026-07-01",
+    receivedDate: null,   // mettre "AAAA-MM-JJ" quand le stock est arrivé
+    items: [
+      {
+        sku: "RFU7100D DC",
+        desc: "Réfrigérateur/congélateur marin 12/24 Vdc — 6.8 pi³ (192 L) avec tiroir congélateur",
+        qty: 2,
+        serials: ["613990", "613991"]
+      },
+      {
+        sku: "R1900 DC",
+        desc: "Réfrigérateur marin 12/24 Vdc — 1.9 pi³ (54 L)",
+        qty: 2,
+        serials: ["614023", "614024"]
+      }
+    ]
+  }
+];
+
+/* ================================================================
+   LOGIQUE — rien à modifier en bas de cette ligne.
+   ================================================================ */
+const MS_DAY = 86400000;
+const today = new Date(); today.setHours(0,0,0,0);
+
+function parseDate(s) { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); }
+
+function addBusinessDays(date, n) {
+  const d = new Date(date);
+  let added = 0;
+  while (added < n) {
+    d.setDate(d.getDate() + 1);
+    const dow = d.getDay();
+    if (dow !== 0 && dow !== 6) added++;
+  }
+  return d;
+}
+
+function businessDaysBetween(a, b) {
+  // jours ouvrables écoulés de a (exclu) à b (inclus)
+  let count = 0;
+  const d = new Date(a);
+  while (d < b) {
+    d.setDate(d.getDate() + 1);
+    const dow = d.getDay();
+    if (dow !== 0 && dow !== 6) count++;
+  }
+  return count;
+}
+
+const MONTHS_FR = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+function fmt(d) { return d.getDate() + " " + MONTHS_FR[d.getMonth()]; }
+function fmtFull(d) { return d.getDate() + " " + MONTHS_FR[d.getMonth()] + " " + d.getFullYear(); }
+
+function shipmentStatus(s) {
+  const sup = SUPPLIERS[s.supplier];
+  const ship = parseDate(s.shipDate);
+  const etaMin = addBusinessDays(ship, sup.transitMin);
+  const etaMax = addBusinessDays(ship, sup.transitMax);
+  let status, label, cls;
+  if (s.receivedDate) {
+    status = "received"; label = "✓ Reçu le " + fmt(parseDate(s.receivedDate)); cls = "received";
+  } else if (today > etaMax) {
+    status = "late"; label = "⚠ En retard — vérifier avec le transporteur"; cls = "late";
+  } else if (today >= etaMin) {
+    status = "imminent"; label = "📍 Arrivée imminente"; cls = "imminent";
+  } else {
+    status = "transit"; label = "🚚 En transit"; cls = "transit";
+  }
+  const elapsed = businessDaysBetween(ship, today);
+  const progress = s.receivedDate ? 100 : Math.min(96, Math.max(3, (elapsed / sup.transitMax) * 100));
+  return { status, label, cls, etaMin, etaMax, elapsed, progress };
+}
+
+/* ---- Filtres ---- */
+let activeSupplier = "all";
+let searchTerm = "";
+
+function matches(s) {
+  if (activeSupplier !== "all" && s.supplier !== activeSupplier) return false;
+  if (!searchTerm) return true;
+  const t = searchTerm.toLowerCase();
+  const sup = SUPPLIERS[s.supplier];
+  if (s.invoice.toLowerCase().includes(t)) return true;
+  if (s.po.toLowerCase().includes(t)) return true;
+  if (sup.name.toLowerCase().includes(t)) return true;
+  return s.items.some(it =>
+    it.sku.toLowerCase().includes(t) ||
+    it.desc.toLowerCase().includes(t) ||
+    it.serials.some(sn => sn.toLowerCase().includes(t))
+  );
+}
+
+function hl(text) {
+  if (!searchTerm) return text;
+  const t = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return text.replace(new RegExp("(" + t + ")", "gi"), "<mark>$1</mark>");
+}
+
+/* ---- Rendu ---- */
+function renderStats(visible) {
+  const active = visible.filter(s => !s.receivedDate);
+  const itemCount = active.reduce((n, s) => n + s.items.reduce((m, it) => m + it.qty, 0), 0);
+  let next = null;
+  active.forEach(s => {
+    const st = shipmentStatus(s);
+    if (!next || st.etaMin < next) next = st.etaMin;
+  });
+  document.getElementById("stats").innerHTML = `
+    <div class="stat"><div class="num">${active.length}</div><div class="lbl">Shipments en route</div></div>
+    <div class="stat"><div class="num">${itemCount}</div><div class="lbl">Items en route</div></div>
+    <div class="stat"><div class="num small">${next ? "~ " + fmt(next) : "—"}</div><div class="lbl">Prochaine arrivée</div></div>
+    <div class="stat"><div class="num">${Object.keys(SUPPLIERS).length}</div><div class="lbl">Fournisseurs</div></div>`;
+}
+
+function renderChips() {
+  let html = `<button class="chip ${activeSupplier==="all"?"active":""}" data-s="all">Tous</button>`;
+  for (const key in SUPPLIERS) {
+    html += `<button class="chip ${activeSupplier===key?"active":""}" data-s="${key}">${SUPPLIERS[key].name.split(" ")[0] + " " + (SUPPLIERS[key].name.split(" ")[1]||"")}</button>`;
+  }
+  const el = document.getElementById("chips");
+  el.innerHTML = html;
+  el.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+    activeSupplier = c.dataset.s; render();
+  }));
+}
+
+function renderList(visible) {
+  const list = document.getElementById("list");
+  if (!visible.length) {
+    list.innerHTML = `<div class="empty"><div class="big">📭</div>Aucun shipment ne correspond à cette recherche.</div>`;
+    return;
+  }
+  // Tri : non reçus d'abord (ETA la plus proche en premier), reçus ensuite
+  visible.sort((a, b) => {
+    const sa = shipmentStatus(a), sb = shipmentStatus(b);
+    if (!!a.receivedDate !== !!b.receivedDate) return a.receivedDate ? 1 : -1;
+    return sa.etaMin - sb.etaMin;
+  });
+
+  list.innerHTML = visible.map(s => {
+    const sup = SUPPLIERS[s.supplier];
+    const st = shipmentStatus(s);
+    const fillCls = st.status === "received" ? "done" : (st.status === "late" ? "late" : "");
+    const itemRows = s.items.map(it => `
+      <tr>
+        <td class="sku">${hl(it.sku)}</td>
+        <td>${hl(it.desc)}</td>
+        <td class="qty">${it.qty}</td>
+        <td class="serials">${hl(it.serials.join(", "))}</td>
+      </tr>`).join("");
+    return `
+    <div class="ship-card">
+      <div class="ship-head">
+        <div class="supplier-badge">
+          <div class="supplier-dot" style="background:${sup.color}">${sup.initials}</div>
+          <div>
+            <div class="name">${hl(sup.name)}</div>
+            <div class="from">Depuis ${sup.city} · Transporteur : ${sup.carrier}</div>
+          </div>
+        </div>
+        <div class="ship-meta">
+          <span>Facture <b>${hl(s.invoice)}</b></span>
+          <span>PO <b>${hl(s.po)}</b></span>
+          <span>Shippé le <b>${fmtFull(parseDate(s.shipDate))}</b></span>
+        </div>
+        <span class="badge ${st.cls}">${st.label}</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-bar">
+          <div class="tl-fill ${fillCls}" style="width:${st.progress}%"></div>
+          ${st.status !== "received" ? `<span class="tl-truck" style="left:${st.progress}%">🚚</span>` : ""}
+        </div>
+        <div class="tl-labels">
+          <span>Départ <b>${fmt(parseDate(s.shipDate))}</b></span>
+          <span>${st.status === "received" ? "" : st.elapsed + " jour" + (st.elapsed>1?"s":"") + " ouvrable" + (st.elapsed>1?"s":"") + " écoulé" + (st.elapsed>1?"s":"")}</span>
+          <span>Arrivée <b>${fmt(st.etaMax)}</b></span>
+        </div>
+      </div>
+      ${st.status !== "received" ? `
+      <div class="eta-line">
+        Arrivée estimée : <span class="window">entre le ${fmt(st.etaMin)} et le ${fmt(st.etaMax)}</span>
+      </div>` : ""}
+      <div class="items">
+        <table>
+          <thead><tr><th>Item</th><th>Description</th><th style="text-align:center">Qté</th><th># Série</th></tr></thead>
+          <tbody>${itemRows}</tbody>
+        </table>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function render() {
+  const visible = SHIPMENTS.filter(matches);
+  renderStats(visible);
+  renderChips();
+  renderList(visible);
+}
+
+document.getElementById("search").addEventListener("input", e => {
+  searchTerm = e.target.value.trim(); render();
+});
+document.getElementById("updated").textContent = "Dernière mise à jour : " + fmtFull(parseDate(LAST_UPDATED));
+render();
+</script>
+</body>
+</html>
