@@ -310,7 +310,7 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-08"; // BC reçus retirés : 2318, 2319 et groupage 2270/2281
+const LAST_UPDATED = "2026-07-08"; // Logos Brewers/Techspan/SOK/Pines/PowerMax + ETA conteneur SOK (~1er sept.)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -377,7 +377,7 @@ const SUPPLIERS = {
     transitMax: 4,
     color: "#b45309",
     initials: "TI",
-    logo: null
+    logo: "logos/techspan.png"
   },
   "brewers": {
     name: "Brewers' Marine Supply",
@@ -388,7 +388,7 @@ const SUPPLIERS = {
     transitMax: 4,
     color: "#0e7490",
     initials: "BM",
-    logo: null
+    logo: "logos/brewers.png"
   },
   "sok": {
     name: "SOK Battery",
@@ -399,7 +399,7 @@ const SUPPLIERS = {
     transitMax: 45,
     color: "#ca8a04",
     initials: "SK",
-    logo: null
+    logo: "logos/sok.png"
   },
   "pines": {
     name: "Pines RV Refrigeration",
@@ -410,7 +410,7 @@ const SUPPLIERS = {
     transitMax: 8,
     color: "#166534",
     initials: "PR",
-    logo: null
+    logo: "logos/pines.png"
   },
   "powermax": {
     name: "PowerMax / Fieldstone Products",
@@ -421,7 +421,7 @@ const SUPPLIERS = {
     transitMax: 10,
     color: "#be185d",
     initials: "PM",
-    logo: null
+    logo: "logos/powermax.png"
   }
   // Ajouter les prochains fournisseurs ici
 };
@@ -646,7 +646,9 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
-    tagline: "Batteries LiFePO4 — 683 unités (transit maritime depuis la Chine)",
+    etaMin: "2026-08-28",
+    etaMax: "2026-09-04",
+    tagline: "Batteries LiFePO4 — 683 unités; arrivée par conteneur vers le 1er septembre (à confirmer)",
     items: [
       { sku: "SK12V314PH", desc: "SOK Batterie LiFePO4 314 Ah 12V Bluetooth autochauffante — Victron Com", qty: 228 },
       { sku: "SK12V206PH", desc: "SOK Batterie LiFePO4 206 Ah 12V Bluetooth autochauffante — boîtier plastique", qty: 64 },
@@ -1088,7 +1090,12 @@ function fmtFull(d) { return d.getDate() + " " + MONTHS_FR[d.getMonth()] + " " +
 function orderStatus(o) {
   const sup = SUPPLIERS[o.supplier];
   let etaMin, etaMax, approx = false;
-  if (o.shipDate) {
+  if (o.etaMin || o.etaMax) {
+    // ETA fournie explicitement (ex. : conteneur — date communiquée par le fournisseur)
+    etaMin = parseDate(o.etaMin || o.etaMax);
+    etaMax = parseDate(o.etaMax || o.etaMin);
+    approx = !o.shipDate;
+  } else if (o.shipDate) {
     const ship = parseDate(o.shipDate);
     etaMin = addBusinessDays(ship, sup.transitMin);
     etaMax = addBusinessDays(ship, sup.transitMax);
