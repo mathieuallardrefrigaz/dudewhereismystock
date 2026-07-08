@@ -310,7 +310,7 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-08"; // 22 nouveaux bons de commande intégrés (Techspan, Brewers', SOK, Pines RV, PowerMax, Victron, Dometic, Unique, Camco, Nova Kool)
+const LAST_UPDATED = "2026-07-08"; // Factures Brewers'/Unique/Pines + confirmations Camco/Dometic/Victron intégrées
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -434,6 +434,7 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
+    tagline: "Confirmation Dometic 101591892 — expédition prévue début juillet; reliquat : 1 RTX 2000 vers le 28 sept.",
     items: [
       { sku: "d9620017662", desc: "Dometic Air climatisé RTX 2000 Blanc 12V — 6 824 BTU", qty: 1 },
       { sku: "d9100300152", desc: "Dometic RTX 2000 — kit d'installation 12V", qty: 2 },
@@ -451,9 +452,11 @@ const ORDERS = [
     po: "2332",
     supplier: "unique",
     poDate: "2026-07-03",
-    shipDate: null,
+    shipDate: "2026-07-03",
+    carrier: "YUSEN LOGISTICS",
     invoice: null,
     receivedDate: null,
+    tagline: "Expédié — Sales Order SO-140620 (11 unités)",
     items: [
       { sku: "UGP-30G OF1 W", desc: "Unique Cuisinière propane 30 po Classic — Blanc", qty: 6 },
       { sku: "UGP-170L DC W", desc: "Unique Réfrigérateur 12V/24V — 170 L / 6 pi³ Blanc", qty: 1 },
@@ -466,9 +469,10 @@ const ORDERS = [
     po: "2331",
     supplier: "camco",
     poDate: "2026-07-03",
-    shipDate: null,
+    shipDate: "2026-07-06",
     invoice: null,
     receivedDate: null,
+    tagline: "Confirmation Camco SO-232679 — expédié le 6 juillet",
     items: [
       { sku: "T11811", desc: "Kuuma chauffe-eau 6 gallons 120V avec échangeur de chaleur, montage Av/Ar (UL)", qty: 27 }
     ]
@@ -476,10 +480,11 @@ const ORDERS = [
   {
     po: "2333",
     supplier: "victron",
-    poDate: "2026-07-06",     // 💻 date du bon de commande
-    shipDate: null,           // 🚚 à remplir à la réception de la facture/confirmation
+    poDate: "2026-07-06",
+    shipDate: null,
     invoice: null,
     receivedDate: null,
+    tagline: "Confirmation Victron 8787418 reçue",
     items: [
       { sku: "ORI124838110", desc: "Victron Orion-Tr 12/48-8A (380W) — convertisseur DC-DC isolé", qty: 5 },
       { sku: "ORI241260020", desc: "Victron Orion 24/12-60 — convertisseur DC-DC IP20 (Uout=13.2V)", qty: 10 },
@@ -579,13 +584,39 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
+    tagline: "Reste de la commande — reliquats expédiés les 23-24 juin (factures C00298899, C00298935)",
     items: [
       { sku: "131525", desc: "Ancor Câble marin #14/3 — 250 pieds", qty: 2 },
       { sku: "BS5026", desc: "Blue Sea Bloc fusibles ATO 12 circuits avec mise à la terre", qty: 20 },
       { sku: "BS2127", desc: "Blue Sea MaxiBus 4 x goujons 5/16", qty: 10 },
       { sku: "120910", desc: "Ancor Câble marin 8/2 — 100 pieds", qty: 13 },
-      { sku: "121140", desc: "Ancor Câble marin #10/2 — 400 pieds", qty: 7 },
-      { sku: "121350", desc: "Ancor Câble marin #12/2 — 500 pieds", qty: 1 },
+      { sku: "121140", desc: "Ancor Câble marin #10/2 — 400 pieds", qty: 6 },
+      { sku: "121350", desc: "Ancor Câble marin #12/2 — 500 pieds", qty: 1 }
+    ]
+  },
+  {
+    // Reliquat BC 2273 — facture fournisseur C00298899
+    po: "2273",
+    supplier: "brewers",
+    poDate: "2026-04-20",
+    shipDate: "2026-06-23",
+    invoice: "C00298899",
+    receivedDate: null,
+    tagline: "Reliquat expédié",
+    items: [
+      { sku: "121140", desc: "Ancor Câble marin #10/2 — 400 pieds", qty: 1 }
+    ]
+  },
+  {
+    // Reliquat BC 2273 — facture fournisseur C00298935
+    po: "2273",
+    supplier: "brewers",
+    poDate: "2026-04-20",
+    shipDate: "2026-06-24",
+    invoice: "C00298935",
+    receivedDate: null,
+    tagline: "Reliquat expédié",
+    items: [
       { sku: "121550", desc: "Ancor Câble marin #14/2 — 500 pieds", qty: 5 }
     ]
   },
@@ -719,6 +750,7 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
+    tagline: "Confirmation Dometic 101582589 — reliquats : 4 RTX 2000 vers le 8 sept., 2 NRX0060C vers le 5 oct.",
     items: [
       { sku: "d9620017662", desc: "Dometic Air climatisé RTX 2000 Blanc 12V — 6 824 BTU", qty: 4 },
       { sku: "d9620015927", desc: "Dometic FreshJet 5 Series — climatiseur 15 000 BTU profil bas, mécanique", qty: 2 },
@@ -802,25 +834,55 @@ const ORDERS = [
     ]
   },
   {
+    // BC 2316 — 1er envoi (facture fournisseur C00298916)
     po: "2316",
     supplier: "brewers",
     poDate: "2026-06-18",
-    shipDate: null,
-    invoice: null,
+    shipDate: "2026-06-23",
+    invoice: "C00298916",
     receivedDate: null,
+    tagline: "1er envoi du BC 2316",
     items: [
       { sku: "131110", desc: "Ancor Câble marin #10/3 — 100 pieds", qty: 2 },
       { sku: "131510", desc: "Ancor Câble marin #14/3 — 100 pieds", qty: 4 },
       { sku: "113010", desc: "Ancor Câble marin #4 Noir — 100 pieds", qty: 2 },
       { sku: "113510", desc: "Ancor Câble marin #4 Rouge — 100 pieds", qty: 4 },
       { sku: "112510", desc: "Ancor Câble marin #6 Rouge — 100 pieds", qty: 1 },
-      { sku: "BS6006", desc: "Blue Sea Interrupteur mini ON/OFF avec bouton rouge", qty: 30 },
-      { sku: "BS7184", desc: "Blue Sea Disjoncteur 60 A", qty: 30 },
+      { sku: "BS6006", desc: "Blue Sea Interrupteur mini ON/OFF avec bouton rouge", qty: 5 },
+      { sku: "BS7184", desc: "Blue Sea Disjoncteur 60 A", qty: 13 },
       { sku: "BS5190", desc: "Blue Sea Fusible de borne 300 A", qty: 10 },
-      { sku: "BS5196", desc: "Blue Sea Bloc fusibles MRBF 250 A — 3 circuits communs", qty: 5 },
-      { sku: "BS5025", desc: "Blue Sea Bloc fusibles ATO 6 circuits avec mise à la terre", qty: 5 },
+      { sku: "BS5065", desc: "Blue Sea Porte-fusible étanche", qty: 10 },
+      { sku: "BS5025B", desc: "Blue Sea Bloc fusibles ATO 6 circuits (vrac)", qty: 5 }
+    ]
+  },
+  {
+    // BC 2316 — 2e envoi (facture fournisseur C00298964)
+    po: "2316",
+    supplier: "brewers",
+    poDate: "2026-06-18",
+    shipDate: "2026-06-25",
+    invoice: "C00298964",
+    receivedDate: null,
+    tagline: "2e envoi du BC 2316",
+    items: [
       { sku: "BS2151", desc: "Blue Sea Bloc fusibles de borne 300 A — 2 fusibles", qty: 5 },
-      { sku: "BS5065", desc: "Blue Sea Porte-fusible étanche", qty: 10 }
+      { sku: "BS6006", desc: "Blue Sea Interrupteur mini ON/OFF avec bouton rouge", qty: 10 },
+      { sku: "BS5196", desc: "Blue Sea Bloc fusibles MRBF 250 A — 3 circuits communs", qty: 3 }
+    ]
+  },
+  {
+    // BC 2316 — 3e envoi (facture fournisseur C00299036) — complète la commande
+    po: "2316",
+    supplier: "brewers",
+    poDate: "2026-06-18",
+    shipDate: "2026-06-30",
+    invoice: "C00299036",
+    receivedDate: null,
+    tagline: "3e et dernier envoi — commande complète",
+    items: [
+      { sku: "BS6006", desc: "Blue Sea Interrupteur mini ON/OFF avec bouton rouge", qty: 15 },
+      { sku: "BS7184", desc: "Blue Sea Disjoncteur 60 A", qty: 17 },
+      { sku: "BS5196", desc: "Blue Sea Bloc fusibles MRBF 250 A — 3 circuits communs", qty: 2 }
     ]
   },
   {
@@ -881,9 +943,10 @@ const ORDERS = [
     po: "2322",
     supplier: "pines",
     poDate: "2026-06-25",
-    shipDate: null,
-    invoice: null,
+    shipDate: "2026-07-08",
+    invoice: "11127",
     receivedDate: null,
+    tagline: "Commande complète — 16 cooling units",
     items: [
       { sku: "cupn1210", desc: "Cooling unit neuf Norcold 1210-1211 (garantie 3 ans)", qty: 4 },
       { sku: "cupn1292", desc: "Cooling unit neuf Dometic 1292-7732 (garantie 3 ans)", qty: 1 },
@@ -897,11 +960,13 @@ const ORDERS = [
     po: "2323",
     supplier: "unique",
     poDate: "2026-06-26",
-    shipDate: null,
-    invoice: null,
+    shipDate: "2026-07-03",
+    carrier: "CANADA POST",
+    invoice: "023650",
     receivedDate: null,
+    tagline: "2 ampoules DEL en reliquat",
     items: [
-      { sku: "ugpp BCD-LL", desc: "Ampoule DEL — UGP-108/170/260/370", qty: 8 },
+      { sku: "ugpp BCD-LL", desc: "Ampoule DEL — UGP-108/170/260/370", qty: 6 },
       { sku: "ugpp CBP UB04-2", desc: "Kit allumeur piézo", qty: 2 },
       { sku: "ugpp DL00013897", desc: "Thermostat pour réfrigérateur UGP-290L / 470L 12/24 DC", qty: 2 },
       { sku: "ugpp DL18301371", desc: "Module d'allumage électronique — réfrigérateurs 2/3/6C/8C/10C", qty: 2 },
@@ -916,6 +981,7 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
+    tagline: "Confirmation Dometic 101590670 — reliquat : 3 RTX 2000 vers le 24 sept.",
     items: [
       { sku: "d9620012875", desc: "Dometic Cadre encastré universel pour NRX 60 — noir", qty: 1 },
       { sku: "d9610008459", desc: "Dometic WH-6EA — chauffe-eau électrique 6 gallons Essential", qty: 2 },
@@ -940,8 +1006,9 @@ const ORDERS = [
     po: "2329",
     supplier: "unique",
     poDate: "2026-07-02",
-    shipDate: null,
-    invoice: null,
+    shipDate: "2026-07-03",
+    carrier: "CANADA POST",
+    invoice: "023658",
     receivedDate: null,
     items: [
       { sku: "UGPP-DL38801070", desc: "Balcon de porte réfrigérateur/congélateur — UGP-14", qty: 2 }
@@ -954,6 +1021,7 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
+    tagline: "Confirmation Victron 8787133 reçue",
     items: [
       { sku: "SCC110050210", desc: "Victron SmartSolar MPPT 100/50", qty: 10 },
       { sku: "PMP122305102", desc: "Victron MultiPlus-II 12/3000/120-50 — 2x120V (UL 458)", qty: 4 },
@@ -973,6 +1041,48 @@ const ORDERS = [
       { sku: "ASS030710118", desc: "Victron Câble VE.Can vers CAN-bus BMS type A — 1.8 m", qty: 5 },
       { sku: "ASS030064951", desc: "Victron Câble RJ45 UTP 1.8 m", qty: 5 },
       { sku: "PMP482505010", desc: "Victron MultiPlus-II 48/5000/70-50 230V", qty: 1 }
+    ]
+  },
+  {
+    // Commande Brewers' sans BC déposé (réf. fournisseur OE 230242)
+    po: "réf. 230242",
+    supplier: "brewers",
+    poDate: "2026-06-08",
+    shipDate: "2026-06-08",
+    invoice: "C00298616",
+    receivedDate: null,
+    items: [
+      { sku: "BS5065", desc: "Blue Sea Porte-fusible étanche", qty: 20 },
+      { sku: "BS6006", desc: "Blue Sea Interrupteur mini ON/OFF avec bouton rouge", qty: 5 },
+      { sku: "BS5189", desc: "Blue Sea Fusible de borne 250 A", qty: 5 },
+      { sku: "BS7056", desc: "Blue Sea Disjoncteur bouton-poussoir 15 A", qty: 1 },
+      { sku: "BS3001", desc: "Blue Sea Interrupteur de batterie simple HD 600 A — montage panneau/surface", qty: 1 },
+      { sku: "BS7184", desc: "Blue Sea Disjoncteur 60 A", qty: 6 }
+    ]
+  },
+  {
+    // Commande Brewers' sans BC déposé (réf. fournisseur OE 230250)
+    po: "réf. 230250",
+    supplier: "brewers",
+    poDate: "2026-06-09",
+    shipDate: "2026-06-09",
+    invoice: "C00298622",
+    receivedDate: null,
+    items: [
+      { sku: "BS7056", desc: "Blue Sea Disjoncteur bouton-poussoir 15 A", qty: 10 }
+    ]
+  },
+  {
+    // BC 2237 — connu via la confirmation Dometic 101583216 (BC non déposé dans SharePoint)
+    po: "2237",
+    supplier: "dometic",
+    poDate: "2026-06-09",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Confirmation Dometic 101583216 — expédition prévue vers le 10 juin",
+    items: [
+      { sku: "9630002554", desc: "Dometic FA95 Platinum (FA95MBSBG81S) — Black Streamhead", qty: 14 }
     ]
   }
 ];
