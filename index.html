@@ -222,6 +222,9 @@
     font-size: 1.3rem;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,.25));
   }
+  /* Les émojis véhicule (camion/train/bateau) font face à gauche par défaut ;
+     on les retourne pour qu'ils avancent visuellement vers la droite, vers Réfrigaz. */
+  .veh-ico { display: inline-block; transform: scaleX(-1); }
   .route-tag {
     position: absolute; top: -13px;
     font-size: .72rem; color: var(--muted); font-weight: 600;
@@ -1045,14 +1048,14 @@ function journeyHTML(o, st, sup) {
       <div class="line"><div class="fill" style="transform:scaleX(${leg1Fill})"></div></div>
     </div>
     <div class="step ${stepShip}">
-      <div class="ic">${icon}</div>
+      <div class="ic"><span class="veh-ico">${icon}</span></div>
       <div class="ttl">${shipTtl}</div>
       <div class="dt ${shipCls}">${shipTxt}</div>
     </div>
     <div class="leg ${shipped ? "" : "dashed"}">
       <div class="line"><div class="fill" style="transform:scaleX(${leg2Fill})"></div></div>
       ${truckPos !== null
-        ? `<span class="truck-move" style="left:${truckPos}%">${icon}<span class="route-tag ${truckPos > 55 ? "left" : "right"}">${resolveCity(o, sup)} → Granby, QC</span></span>`
+        ? `<span class="truck-move" style="left:${truckPos}%"><span class="veh-ico">${icon}</span><span class="route-tag ${truckPos > 55 ? "left" : "right"}">${resolveCity(o, sup)} → Granby, QC</span></span>`
         : `<div class="route">${resolveCity(o, sup)} → Granby, QC</div>`}
     </div>
     <div class="step ${stepArr}">
