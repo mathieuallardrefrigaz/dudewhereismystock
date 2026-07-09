@@ -223,7 +223,7 @@
     filter: drop-shadow(0 1px 2px rgba(0,0,0,.25));
   }
   .route-tag {
-    position: absolute; top: 50%; transform: translateY(-42%);
+    position: absolute; top: -13px;
     font-size: .72rem; color: var(--muted); font-weight: 600;
     white-space: nowrap;
   }
@@ -842,6 +842,17 @@ function addBusinessDays(date, n) {
 const MONTHS_FR = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
 function fmt(d) { return d.getDate() + " " + MONTHS_FR[d.getMonth()]; }
 function fmtFull(d) { return d.getDate() + " " + MONTHS_FR[d.getMonth()] + " " + d.getFullYear(); }
+// Plage de dates : si même mois, le mois n'est écrit qu'une fois (ex. « 14 – 17 juillet »)
+function fmtRange(a, b) {
+  if (a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear())
+    return a.getDate() + " – " + fmt(b);
+  return fmt(a) + " – " + fmt(b);
+}
+function fmtRangeEntre(a, b) {
+  if (a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear())
+    return "entre le " + a.getDate() + " et le " + fmt(b);
+  return "entre le " + fmt(a) + " et le " + fmt(b);
+}
 
 function orderStatus(o) {
   const sup = SUPPLIERS[o.supplier];
@@ -950,8 +961,8 @@ function journeyHTML(o, st, sup) {
   const arrived = !!o.receivedDate;
   let arrTtl, arrTxt, arrCls;
   if (arrived) { arrTtl = "Arrivée"; arrTxt = fmtFull(parseDate(o.receivedDate)); arrCls = ""; }
-  else if (st.etaMin) { arrTtl = "Arrivée prévue vers"; arrTxt = "le " + fmt(st.etaMin) + " – " + fmt(st.etaMax); arrCls = "approx"; }
-  else { arrTtl = "Arrivée prévue vers"; arrTxt = "à confirmer"; arrCls = "pending"; }
+  else if (st.etaMin) { arrTtl = "Arrivée estimée"; arrTxt = "le " + fmtRange(st.etaMin, st.etaMax); arrCls = "approx"; }
+  else { arrTtl = "Arrivée estimée"; arrTxt = "à confirmer"; arrCls = "pending"; }
 
   const leg1Fill = shipped ? 1 : 0.45;
   let leg2Fill = 0, truckPos = null;
@@ -1027,7 +1038,7 @@ function renderList(visible) {
             : `<div class="supplier-dot" style="background:${sup.color}" title="${sup.name}">${sup.initials}</div>`}
         </div>
         <div class="ship-meta">
-          <span>Bon de commande <b>${hl(o.po)}</b></span>
+          <span>Bon${o.po.includes("/") ? "s" : ""} de commande <b>${hl(o.po)}</b></span>
           ${o.invoice ? `<span>Facture fournisseur <b>${hl(o.invoice)}</b></span>` : ""}
           ${(o.carrier || sup.carrier) !== "—" ? `<span>Transporteur <b>${o.carrier || sup.carrier}</b></span>` : ""}
           ${o.tagline ? `<span style="color:#6d28d9;font-weight:600">${o.tagline}</span>` : ""}
@@ -1037,7 +1048,7 @@ function renderList(visible) {
       ${journeyHTML(o, st, sup)}
       ${!o.receivedDate && st.etaMin ? `
       <div class="eta-line">
-        Arrivée estimée : <span class="window">${st.approx ? "≈ " : ""}entre le ${fmt(st.etaMin)} et le ${fmt(st.etaMax)}</span>
+        Arrivée estimée : <span class="window">${st.approx ? "≈ " : ""}${fmtRangeEntre(st.etaMin, st.etaMax)}</span>
         ${st.approx ? `<span class="note">Estimation basée sur la date du bon de commande — sera précisée à l'expédition</span>` : ""}
       </div>` : ""}
       <div class="items">
