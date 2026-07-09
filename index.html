@@ -317,7 +317,7 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-09"; // + BC 2339 Nova Kool ; Nova Kool passe au train (lead time 4-6 sem., transit ~3 sem.) ; SOK 2292 en paquebot
+const LAST_UPDATED = "2026-07-09"; // + BC 2339 Nova Kool (train) ; SOK par défaut en paquebot, exception 2337 (camion, Chino CA)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -430,7 +430,8 @@ const SUPPLIERS = {
     transitMax: 40,
     color: "#0e7490",
     initials: "SK",
-    logo: "logos/sok.png"
+    logo: "logos/sok.png",
+    transportIcon: "🚢" // paquebot par défaut pour tout SOK — demandé par Mathieu (2026-07-09). Exception : PO 2337 (voir override sur la commande)
   },
   "noramco": {
     name: "Noramco Wire & Cable",
@@ -610,7 +611,6 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
-    icon: "🚢", // paquebot — expédition de Chine, demandé par Mathieu (2026-07-09)
     tagline: "Conteneur maritime — arrivée estimée vers le début septembre",
     items: [
       { sku: "SK12V314PH", desc: "SOK Batterie lithium 314 Ah 12V Bluetooth autochauffante — comm. Victron", qty: 228 },
@@ -632,6 +632,12 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
+    icon: "🚚",              // exception : camion, pas paquebot — expédié depuis l'entrepôt US, pas de Chine (2026-07-09)
+    city: "Chino, CA (É.-U.)", // origine réelle de cet envoi (diffère de Zhuhai, ville par défaut du fournisseur SOK)
+    leadTime: 5,             // aligné sur les autres fournisseurs US (Camco/PowerMax) — confirmé par Mathieu
+    transitMin: 7,           // transit routier Chino, CA → Granby, QC (traversée du continent + douanes)
+    transitMax: 10,
+    tagline: "Expédié par camion depuis l'entrepôt Chino, CA (É.-U.) — pas le conteneur habituel de Chine",
     items: [
       { sku: "SK12V100PC", desc: "SOK Batterie lithium 100 Ah 12V Bluetooth — boîtier transparent", qty: 18 },
       { sku: "SK12V206PH", desc: "SOK Batterie lithium 206 Ah 12V Bluetooth autochauffante — boîtier plastique", qty: 28 },
@@ -873,25 +879,37 @@ function transportIcon(o, sup) {
   return o.icon || sup.transportIcon || "🚚";
 }
 
+function resolveLead(o, sup) {
+  const leadMin = o.leadTimeMin != null ? o.leadTimeMin : (o.leadTime != null ? o.leadTime : (sup.leadTimeMin != null ? sup.leadTimeMin : sup.leadTime));
+  const leadMax = o.leadTimeMax != null ? o.leadTimeMax : (o.leadTime != null ? o.leadTime : (sup.leadTimeMax != null ? sup.leadTimeMax : sup.leadTime));
+  return [leadMin, leadMax];
+}
+function resolveTransit(o, sup) {
+  return [o.transitMin != null ? o.transitMin : sup.transitMin, o.transitMax != null ? o.transitMax : sup.transitMax];
+}
+function resolveCity(o, sup) {
+  return o.city || sup.city;
+}
+
 function orderStatus(o) {
   const sup = SUPPLIERS[o.supplier];
   const icon = transportIcon(o, sup);
+  const [transitMin, transitMax] = resolveTransit(o, sup);
   let etaMin, etaMax, approx = false;
   if (o.shipDate) {
     const ship = parseDate(o.shipDate);
-    etaMin = addBusinessDays(ship, sup.transitMin);
-    etaMax = addBusinessDays(ship, sup.transitMax);
+    etaMin = addBusinessDays(ship, transitMin);
+    etaMax = addBusinessDays(ship, transitMax);
   } else if (o.poDate) {
-    const leadMin = sup.leadTimeMin != null ? sup.leadTimeMin : sup.leadTime;
-    const leadMax = sup.leadTimeMax != null ? sup.leadTimeMax : sup.leadTime;
+    const [leadMin, leadMax] = resolveLead(o, sup);
     const expShipMin = addBusinessDays(parseDate(o.poDate), leadMin);
     const expShipMax = addBusinessDays(parseDate(o.poDate), leadMax);
     if (expShipMax < today) {
       // date d'expédition estimée déjà passée : à confirmer avec le fournisseur
       etaMin = etaMax = null;
     } else {
-      etaMin = addBusinessDays(expShipMin, sup.transitMin);
-      etaMax = addBusinessDays(expShipMax, sup.transitMax);
+      etaMin = addBusinessDays(expShipMin, transitMin);
+      etaMax = addBusinessDays(expShipMax, transitMax);
     }
     approx = true;
   } else {
@@ -976,8 +994,7 @@ function journeyHTML(o, st, sup) {
   let shipTtl, shipTxt, shipCls;
   if (shipped) { shipTtl = "Expédié"; shipTxt = fmtFull(parseDate(o.shipDate)); shipCls = ""; }
   else if (o.poDate) {
-    const leadMin = sup.leadTimeMin != null ? sup.leadTimeMin : sup.leadTime;
-    const leadMax = sup.leadTimeMax != null ? sup.leadTimeMax : sup.leadTime;
+    const [leadMin, leadMax] = resolveLead(o, sup);
     const expShipMin = addBusinessDays(parseDate(o.poDate), leadMin);
     const expShipMax = addBusinessDays(parseDate(o.poDate), leadMax);
     if (expShipMax < today) { shipTtl = "Expédition"; shipTxt = "à confirmer"; shipCls = "pending"; }
@@ -1023,8 +1040,8 @@ function journeyHTML(o, st, sup) {
     <div class="leg ${shipped ? "" : "dashed"}">
       <div class="line"><div class="fill" style="transform:scaleX(${leg2Fill})"></div></div>
       ${truckPos !== null
-        ? `<span class="truck-move" style="left:${truckPos}%">${icon}<span class="route-tag ${truckPos > 55 ? "left" : "right"}">${sup.city} → Granby, QC</span></span>`
-        : `<div class="route">${sup.city} → Granby, QC</div>`}
+        ? `<span class="truck-move" style="left:${truckPos}%">${icon}<span class="route-tag ${truckPos > 55 ? "left" : "right"}">${resolveCity(o, sup)} → Granby, QC</span></span>`
+        : `<div class="route">${resolveCity(o, sup)} → Granby, QC</div>`}
     </div>
     <div class="step ${stepArr}">
       <div class="ic">${LOGO_SVG}</div>
