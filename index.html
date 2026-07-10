@@ -480,10 +480,12 @@ const ORDERS = [
     shipDate: "2026-07-10",
     carrier: "Purolator",
     tracking: "520645024834",
-    trackingUrl: "https://www.purolator.com/fr/expedition/dispositif-de-reperage?pin=520645024834",
+    trackingUrl: "https://www.purolator.com/en/shipping/tracker?pin=520645024834",
     invoice: null,
     receivedDate: null,
-    tagline: "Expédition partielle — le 3e ventilateur 7500K suivra dans un envoi séparé",
+    etaMin: "2026-07-13",  // date de livraison estimée confirmée par Purolator (suivi consulté le 10 juillet)
+    etaMax: "2026-07-13",
+    tagline: "Expédition partielle (11 boîtes) — le 3e ventilateur 7500K suivra dans un envoi séparé",
     items: [
       { sku: "6200K", desc: "Ventilateur Maxxair 6200K — Manuel — Deluxe — Fumé gris", qty: 9 },
       { sku: "7500K", desc: "Ventilateur Maxxair 7500K — Automatique — Deluxe — Fumé gris — Télécommande", qty: 2 }
@@ -967,11 +969,13 @@ function fmt(d) { return d.getDate() + " " + MONTHS_FR[d.getMonth()]; }
 function fmtFull(d) { return d.getDate() + " " + MONTHS_FR[d.getMonth()] + " " + d.getFullYear(); }
 // Plage de dates : si même mois, le mois n'est écrit qu'une fois (ex. « 14 – 17 juillet »)
 function fmtRange(a, b) {
+  if (+a === +b) return fmt(a); // date unique (ex. ETA ferme du transporteur)
   if (a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear())
     return a.getDate() + " – " + fmt(b);
   return fmt(a) + " – " + fmt(b);
 }
 function fmtRangeEntre(a, b) {
+  if (+a === +b) return "le " + fmt(a); // date unique (ex. ETA ferme du transporteur)
   if (a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear())
     return "entre le " + a.getDate() + " et le " + fmt(b);
   return "entre le " + fmt(a) + " et le " + fmt(b);
@@ -1026,6 +1030,12 @@ function orderStatus(o) {
     approx = true;
   } else {
     etaMin = etaMax = null; approx = true;
+  }
+  // Override d'ETA explicite au niveau de la commande (ex. date de livraison confirmée par le transporteur)
+  if (o.etaMin) {
+    etaMin = parseDate(o.etaMin);
+    etaMax = parseDate(o.etaMax || o.etaMin);
+    approx = false;
   }
   let status, label, cls;
   if (o.receivedDate) {
