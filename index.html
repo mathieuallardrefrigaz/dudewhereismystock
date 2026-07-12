@@ -320,7 +320,7 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-12"; // BC 2335 (Unique) + 2338 (Dometic RTX) + E-Order Victron 8788578 intégrés
+const LAST_UPDATED = "2026-07-12"; // BC 2334-2335 (Unique), 2338 (Dometic RTX), 2342 (Bismar) + E-Order Victron 8788578 intégrés
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -555,6 +555,43 @@ const ORDERS = [
     ]
   },
   {
+    // purorder_2334.pdf (reçu par courriel le 12 juillet) — pièces de service UGP-3
+    po: "2334",
+    supplier: "unique",
+    poDate: "2026-07-08",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Commande de pièces — distributeurs UGP",
+    items: [
+      { sku: "UGP-DL08502007", desc: "Balcon inférieur (tablette de porte) — UGP-3 Top Mount", qty: 1 },
+      { sku: "UGP-DL08502329", desc: "Charnière de porte de congélateur — UGP-3 Top Mount (assemblage)", qty: 1 },
+      { sku: "UGP-DL10001527", desc: "Pièce de service — réfrigérateur UGP", qty: 1 }
+    ]
+  },
+  {
+    // purorder_2342.pdf (reçu par courriel le 12 juillet) — régulateurs et boyaux propane
+    po: "2342",
+    supplier: "bismar",
+    poDate: "2026-07-09",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    items: [
+      { sku: "B650012", desc: "Régulateur vert 180 000 BTU avec poignée", qty: 4 },
+      { sku: "B660017", desc: "Boyau 1/4 × 48 po", qty: 1 },
+      { sku: "B660075", desc: "Boyau 1/4 × 48 po avec poignée", qty: 2 },
+      { sku: "B660007", desc: "Boyau 1/4 × 36 po", qty: 1 },
+      { sku: "B660109", desc: "Boyau 3/8 × 12 pi", qty: 2 },
+      { sku: "B660111", desc: "Boyau 3/8 × 15 pi", qty: 1 },
+      { sku: "B730115", desc: "Régulateur automatique 476 000 BTU", qty: 2 },
+      { sku: "B730215", desc: "Régulateur automatique 2 stages 280 000 BTU", qty: 1 },
+      { sku: "B741168", desc: "Connecteur 3/8 MFL × 1/2 MPT", qty: 20 },
+      { sku: "B741080", desc: "Raccord union 3/8 – 3/8", qty: 50 },
+      { sku: "B741711", desc: "Capuchon 3/8 Flare", qty: 5 }
+    ]
+  },
+  {
     // purorder_2335.pdf (déposé le 9 juillet) — pièces distributeurs UGP
     po: "2335",
     supplier: "unique",
@@ -585,7 +622,7 @@ const ORDERS = [
     ]
   },
   {
-    // order_confirmation_8788578.pdf (déposé le 9 juillet) — E-Order Victron confirmé, aucun purorder Sage déposé à date (possiblement BC 2334 ou 2342)
+    // order_confirmation_8788578.pdf (déposé le 9 juillet) — E-Order Victron confirmé, aucun BC Sage correspondant (2334 = Unique et 2342 = Bismar, vérifié le 12 juillet)
     po: "8788578",
     supplier: "victron",
     poDate: "2026-07-09",
