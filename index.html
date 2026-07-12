@@ -320,7 +320,7 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-11"; // 14 BC part. exécutés (captures Sage du 11 juillet) : 13 cartes « reste » + 2330 converti en reste + BC 2343/2344 (Unique)
+const LAST_UPDATED = "2026-07-12"; // BC 2335 (Unique) + 2338 (Dometic RTX) + E-Order Victron 8788578 intégrés
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -552,6 +552,60 @@ const ORDERS = [
       { sku: "UGPP-DL08502330", desc: "Charnière de porte de congélateur — UGP-3 Top Mount", qty: 1 },
       { sku: "UGPP-DL08502319", desc: "Bouton de valve de sécurité — UGP-3 Top Mount", qty: 2 },
       { sku: "UGP13-55", desc: "Tablette de porte inférieure — réfrigérateur UGP-13 (cabinet 2015)", qty: 1 }
+    ]
+  },
+  {
+    // purorder_2335.pdf (déposé le 9 juillet) — pièces distributeurs UGP
+    po: "2335",
+    supplier: "unique",
+    poDate: "2026-07-08",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    items: [
+      { sku: "UGP-DQT01003", desc: "Vitre de fenêtre de four — cuisinière UGP-30G", qty: 1 },
+      { sku: "ugpp DXQJ9903", desc: "Électrode d'allumage brûleur supérieur (arrière G et D) — UGP-20G/24G/30G", qty: 2 },
+      { sku: "ugpp DL10001523", desc: "Thermocouple — réfrigérateurs UGP 2/3/6/6F/8/10/14/19", qty: 8 },
+      { sku: "ugpp DL18301371", desc: "Module d'allumage électronique — réfrigérateurs 2/3/6C/8C/10C", qty: 2 }
+    ]
+  },
+  {
+    // purorder_2338.pdf (déposé le 9 juillet) — climatisation Dometic RTX 2000 12V
+    po: "2338",
+    supplier: "dometic",
+    poDate: "2026-07-09",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    items: [
+      { sku: "d9620017662", desc: "Dometic RTX 2000 — climatiseur 12V 6824 BTU, blanc", qty: 8 },
+      { sku: "d4450022959", desc: "Dometic RTX 2000 — kit de câblage 12V", qty: 6 },
+      { sku: "d9100300152", desc: "Dometic RTX 2000 — kit d'installation 12V", qty: 5 },
+      { sku: "D9630001951", desc: "Dometic SmartStart — climatiseurs FreshJet série 5", qty: 2 }
+    ]
+  },
+  {
+    // order_confirmation_8788578.pdf (déposé le 9 juillet) — E-Order Victron confirmé, aucun purorder Sage déposé à date (possiblement BC 2334 ou 2342)
+    po: "8788578",
+    supplier: "victron",
+    poDate: "2026-07-09",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Commande Victron 8788578 — confirmée le 9 juillet, en attente d'expédition",
+    items: [
+      { sku: "ORI121217050", desc: "Victron Orion XS 12/12-50A — chargeur de batterie DC-DC", qty: 32 },
+      { sku: "LYN060102010", desc: "Victron Lynx Distributor (M10) — distributeur de courant", qty: 10 },
+      { sku: "PMP122305102", desc: "Victron MultiPlus-II 12/3000/120-50 — 2x120V (UL 458)", qty: 1 },
+      { sku: "SCC125060221", desc: "Victron SmartSolar MPPT 250/60-Tr — contrôleur de charge solaire", qty: 4 },
+      { sku: "ASS030537010", desc: "Victron VE.Bus Smart dongle", qty: 3 },
+      { sku: "CIP138060020", desc: "MEGA-fuse 60A/80V (paquet de 5)", qty: 3 },
+      { sku: "BPR122022000", desc: "Victron Smart BatteryProtect 12/24V-220A", qty: 2 },
+      { sku: "CIP138300020", desc: "MEGA-fuse 300A/80V (paquet de 5)", qty: 2 },
+      { sku: "ORI122410020", desc: "Victron Orion 12/24-10 — convertisseur DC-DC IP20", qty: 10 },
+      { sku: "ASS030530218", desc: "Câble VE.Direct 1,8 m", qty: 10 },
+      { sku: "CIP138200020", desc: "MEGA-fuse 200A/80V (paquet de 5)", qty: 1 },
+      { sku: "ASS030530209", desc: "Câble VE.Direct 0,9 m", qty: 10 }
     ]
   },
   {
