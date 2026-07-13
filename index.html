@@ -320,7 +320,7 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-13"; // BC 2334-2335 (Unique), 2338 (Dometic RTX), 2342 (Bismar) + E-Order Victron 8788578 intégrés
+const LAST_UPDATED = "2026-07-13"; // Réceptions Sage : BC 2325 (3× RTX 2000 reçus), BC 2326 (1× RTX 2000 reçu), BC 2341 Brewers quasi complet (reste 2× fusible MEGA 125A)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -858,8 +858,8 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
+    tagline: "Partiellement expédié, en attente des items suivants",
     items: [
-      { sku: "d9620017662", desc: "Dometic Air climatisé RTX 2000 Blanc 12V — 6 824 BTU", qty: 1 },
       { sku: "d9100300152", desc: "Dometic RTX 2000 — kit d'installation 12V", qty: 2 },
       { sku: "d9620017217", desc: "Dometic Freshjet 5 Noir — thermopompe 15 000 BTU", qty: 1 },
       { sku: "d4471011652", desc: "Dometic Freshjet — kit thermostat mural thermopompe", qty: 1 },
@@ -1124,12 +1124,12 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
+    tagline: "Partiellement expédié, en attente des items suivants",
     items: [
       { sku: "d9620012875", desc: "Dometic Cadre d'encastrement universel pour NRX 60 — noir", qty: 1 },
       { sku: "d9610008459", desc: "Dometic Chauffe-eau électrique WH-6EA — 6 gallons", qty: 2 },
       { sku: "DNRX0060C", desc: "Dometic Réfrigérateur 12V/24V — 55 L / 2 pi³ Dark Silver, pentures à droite", qty: 4 },
-      { sku: "DNRX0130C", desc: "Dometic Réfrigérateur 12V/24V — 126 L / 4.5 pi³ Dark Silver, pentures à droite", qty: 2 },
-      { sku: "d9620017662", desc: "Dometic Air climatisé RTX 2000 Blanc 12V — 6 824 BTU", qty: 3 }
+      { sku: "DNRX0130C", desc: "Dometic Réfrigérateur 12V/24V — 126 L / 4.5 pi³ Dark Silver, pentures à droite", qty: 2 }
     ]
   },
   {
@@ -1218,26 +1218,9 @@ const ORDERS = [
     shipDate: null,
     invoice: null,
     receivedDate: null,
+    tagline: "Partiellement expédié, en attente des items suivants",
     items: [
-      { sku: "BS7210", desc: "Blue Sea Disjoncteur AA1 15A — blanc", qty: 13 },
-      { sku: "BS7220", desc: "Blue Sea Disjoncteur AA1 30A — noir", qty: 7 },
-      { sku: "BS5102", desc: "Blue Sea Fusible MEGA 125A/32V", qty: 5 },
-      { sku: "BS2719", desc: "Blue Sea Couvercle Maxibus — pour BS2127/2128", qty: 2 },
-      { sku: "BS5001", desc: "Blue Sea Porte-fusible MEGA 100-300A — avec couvercle", qty: 2 },
-      { sku: "BS5191", desc: "Blue Sea Porte-fusible terminal 300A — 1 fusible", qty: 2 },
-      { sku: "BS7216", desc: "Blue Sea Disjoncteur AA1 25A — noir", qty: 2 },
-      { sku: "BS5103", desc: "Blue Sea Fusible MEGA 150A/32V", qty: 2 },
-      { sku: "BS5107", desc: "Blue Sea Fusible MEGA 250A/32V", qty: 2 },
-      { sku: "BS5177", desc: "Blue Sea Fusible terminal 50A", qty: 1 },
-      { sku: "BS5184", desc: "Blue Sea Fusible terminal 125A", qty: 1 },
-      { sku: "BS8072", desc: "Blue Sea Panneau vierge simple — série A", qty: 1 },
-      { sku: "BS8077", desc: "Blue Sea Panneau CA principal 30A 120V — blanc", qty: 1 },
-      { sku: "111010", desc: "Ancor Câble marin #8 — noir, bobine 100 pi", qty: 1 },
-      { sku: "111510", desc: "Ancor Câble marin #8 — rouge, bobine 100 pi", qty: 1 },
-      { sku: "112010", desc: "Ancor Câble marin #6 — noir, bobine 100 pi", qty: 1 },
-      { sku: "115505", desc: "Ancor Câble marin #1 — rouge, bobine 50 pi", qty: 1 },
-      { sku: "116002", desc: "Ancor Câble marin #1/0 — noir, bobine 25 pi", qty: 1 },
-      { sku: "121750", desc: "Ancor Câble marin #16/2 — bobine 500 pi", qty: 1 }
+      { sku: "BS5102", desc: "Blue Sea Fusible MEGA 125A/32V", qty: 2 }
     ]
   }
 ];
