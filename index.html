@@ -320,7 +320,7 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-13"; // Amazon.ca ajouté (16e fournisseur) — commande 701-6078404-7029847 expédiée
+const LAST_UPDATED = "2026-07-14"; // Unique SO-139344 ajouté (remplacement garantie, livraison directe Équipements Paquet)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -1270,6 +1270,19 @@ const ORDERS = [
     tagline: "Partiellement expédié, en attente des items suivants",
     items: [
       { sku: "BS5102", desc: "Blue Sea Fusible MEGA 125A/32V", qty: 2 }
+    ]
+  },
+  {
+    // Sales Order_SO-139344 (Unique) — aucun BC Sage correspondant, livraison directe chez le distributeur
+    po: "SO-139344",
+    supplier: "unique",
+    poDate: "2026-06-16",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Remplacement sous garantie — commande fournisseur SO-139344 (livraison directe Équipements Paquet)",
+    items: [
+      { sku: "UGP-14C CM W", desc: "Unique Réfrigérateur propane — 396 L / 14 pi³ Blanc, avec détecteur CO", qty: 1 }
     ]
   }
 ];
