@@ -320,7 +320,7 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-14"; // 4 commandes Dometic confirmées expédiées via le portail Dometic For Business (2325, 2326, 2309, 2328)
+const LAST_UPDATED = "2026-07-14"; // BC 2237 fermé (rappel produit FTV2 résolu, confirmé par Mathieu) — Dometic : 4 commandes confirmées expédiées via le portail Dometic For Business
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -784,18 +784,6 @@ const ORDERS = [
     tagline: "Partiellement expédié, en attente des items suivants",
     items: [
       { sku: "sbatt100AGM", desc: "Batterie DM 100Ah 12V scellée AGM Groupe 27", qty: 3 }
-    ]
-  },
-  {
-    po: "2237",
-    supplier: "dometic",
-    poDate: "2026-02-20",
-    shipDate: null,
-    invoice: null,
-    receivedDate: null,
-    tagline: "Partiellement expédié, en attente des items suivants",
-    items: [
-      { sku: "d9610007184", desc: "Dometic Fan-Tastic Vent FA95 noir — avec télécommande et lumière", qty: 46 }
     ]
   },
   {
