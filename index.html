@@ -320,7 +320,7 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-14"; // Nova Kool BC 2305 et 2315 : expéditions partielles confirmées via factures C00075795 / C00075793
+const LAST_UPDATED = "2026-07-15"; // BC 2347 (Unique), 2237 (Dometic) + expéditions Nova Kool 2315/2317, Unique 2335, Brewers 2316/2273 + backorders Dometic RTX 2000W (2309/2325/2326)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -808,7 +808,18 @@ const ORDERS = [
     tagline: "Partiellement expédié, en attente des items suivants",
     items: [
       { sku: "BS5026", desc: "Blue Sea Fuse Block ATO 12 circuits avec mise à la terre", qty: 20 },
-      { sku: "BS2127", desc: "Blue Sea MAXIBUS 4 x 5/16 STUD", qty: 10 },
+      { sku: "BS2127", desc: "Blue Sea MAXIBUS 4 x 5/16 STUD", qty: 10 }
+    ]
+  },
+  {
+    po: "2273",
+    supplier: "brewers",
+    poDate: "2026-04-20",
+    shipDate: "2026-05-15",
+    invoice: "C00298182",
+    receivedDate: null,
+    tagline: "Expédition partielle (facture C00298182, 15 mai) — reste 2 items à venir",
+    items: [
       { sku: "120910", desc: "Ancor Câble marin 8/2 — 100 pieds", qty: 4 },
       { sku: "121550", desc: "Ancor Câble marin #14/2 — bobine 500 pieds", qty: 2 }
     ]
@@ -1073,16 +1084,16 @@ const ORDERS = [
     supplier: "nova-kool",
     poDate: "2026-06-12",
     shipDate: "2026-07-14",
-    carrier: "RADIUS",
-    invoice: "C00075793",
+    carrier: "RADIUS/ELEMENT",
+    invoice: "C00075793, C00075797",
     receivedDate: null,
-    tagline: "Expédition partielle (RADIUS, 14 juillet, facture C00075793) — RFU7300D (9/10), RFU7100D et RFU8220 (2 unités chacun) expédiés; reste ~30 unités à venir",
+    tagline: "Expédition partielle (RADIUS+ELEMENT, 14 juillet, factures C00075793/C00075797) — RFU7300D (10/10), RFU7100D et RFU8220 (2 unités chacun) expédiés; reste ~29 unités à venir",
     items: [
       { sku: "R1200", desc: "Nova Kool Réfrigérateur 12V/24V — 34 L / 1.2 pi³ insertion S/S", qty: 1 },
       { sku: "R1900", desc: "Nova Kool Réfrigérateur 12V/24V — 54 L / 1.9 pi³ Noir", qty: 2 },
       { sku: "R3802", desc: "Nova Kool Réfrigérateur 12V/24V — 99 L / 3.5 pi³ Noir sans congélateur", qty: 2 },
       { sku: "R4500", desc: "Nova Kool Réfrigérateur 12V/24V — 121.8 L / 4.3 pi³ Noir", qty: 8 },
-      { sku: "RFU7300D", desc: "Nova Kool Réfrigérateur 12V/24V — 192.5 L / 6.8 pi³ Noir Slim, congélateur tiroir", qty: 10 },
+      { sku: "RFU7300D", desc: "Nova Kool Réfrigérateur 12V/24V — 192.5 L / 6.8 pi³ Noir Slim, congélateur tiroir", qty: 9 },
       { sku: "RFU7100D", desc: "Nova Kool Réfrigérateur 12V/24V — 192.5 L / 6.8 pi³ Noir Slim, congélateur tiroir", qty: 2 },
       { sku: "RFU6800", desc: "Nova Kool Réfrigérateur 12V/24V — 192.5 L / 6.8 pi³ Noir", qty: 4 },
       { sku: "RFU8220", desc: "Nova Kool Réfrigérateur 12V/24V — 206.7 L / 7.3 pi³ Noir", qty: 2 },
@@ -1096,11 +1107,13 @@ const ORDERS = [
     po: "2317",
     supplier: "nova-kool",
     poDate: "2026-06-18",
-    shipDate: null,
-    invoice: null,
+    shipDate: "2026-07-14",
+    carrier: "RADIUS",
+    invoice: "C00075796",
     receivedDate: null,
+    tagline: "Expédition partielle (RADIUS, 14 juillet, facture C00075796) — 1× RFU7300D expédié; reste 11 unités à venir",
     items: [
-      { sku: "RFU7300D", desc: "Nova Kool Réfrigérateur 12V/24V — 192.5 L / 6.8 pi³ Noir Slim, congélateur tiroir", qty: 4 },
+      { sku: "RFU7300D", desc: "Nova Kool Réfrigérateur 12V/24V — 192.5 L / 6.8 pi³ Noir Slim, congélateur tiroir", qty: 3 },
       { sku: "R5810", desc: "Nova Kool Réfrigérateur 12V/24V — 164.2 L / 5.8 pi³ insertion S/S", qty: 4 },
       { sku: "R3800", desc: "Nova Kool Réfrigérateur 12V/24V — 99 L / 3.5 pi³ Noir", qty: 4 }
     ]
@@ -1158,6 +1171,28 @@ const ORDERS = [
     tagline: "Partiellement expédié, en attente des items suivants",
     items: [
       { sku: "BS2151", desc: "Blue Sea Bloc fusible Terminal 300 A — 2 fusibles", qty: 5 }
+    ]
+  },
+  {
+    po: "2316",
+    supplier: "brewers",
+    poDate: "2026-06-18",
+    shipDate: "2026-06-30",
+    invoice: "C00298916, C00298964, C00299036",
+    receivedDate: null,
+    tagline: "Expédié en 3 envois distincts (23, 25 et 30 juin) — reste 1 item (bloc fusible 300 A) à venir",
+    items: [
+      { sku: "131110", desc: "Ancor Câble marin plat 10/3 — triplex", qty: 2 },
+      { sku: "131510", desc: "Ancor Câble marin plat 14/3 — triplex", qty: 4 },
+      { sku: "113010", desc: "Ancor Câble de batterie #4 — noir", qty: 2 },
+      { sku: "113510", desc: "Ancor Câble de batterie #4 — rouge, bobine 100 pi", qty: 4 },
+      { sku: "112510", desc: "Ancor Câble de batterie #6 — rouge", qty: 1 },
+      { sku: "BS6006", desc: "Blue Sea Interrupteur mini ON/OFF avec bouton — rouge", qty: 30 },
+      { sku: "BS7184", desc: "Blue Sea Disjoncteur 60 A", qty: 30 },
+      { sku: "BS5190", desc: "Blue Sea Fusible Terminal 300 A", qty: 10 },
+      { sku: "BS5196", desc: "Blue Sea Bloc fusible MRBF 250 A — 3 circuits communs", qty: 5 },
+      { sku: "BS5065", desc: "Blue Sea Porte-fusible étanche", qty: 10 },
+      { sku: "BS5025B", desc: "Blue Sea Bloc fusible ATO — vrac", qty: 5 }
     ]
   },
   {
@@ -1278,6 +1313,74 @@ const ORDERS = [
     tagline: "Remplacement sous garantie — commande fournisseur SO-139344 (livraison directe Équipements Paquet)",
     items: [
       { sku: "UGP-14C CM W", desc: "Unique Réfrigérateur propane — 396 L / 14 pi³ Blanc, avec détecteur CO", qty: 1 }
+    ]
+  },
+  {
+    po: "2347",
+    supplier: "unique",
+    poDate: "2026-07-14",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    items: [
+      { sku: "UGPP-BCD-DK70C", desc: "Unique Contrôleur de compresseur — UGP-108L/170L/260L/265L/275L/370L R600a/70g", qty: 1 },
+      { sku: "UGPP13-55", desc: "Unique Tablette de porte du bas — réfrigérateur UGP-13 (nouveau caisson 2015)", qty: 1 },
+      { sku: "UGPP-DL08502319", desc: "Unique Bouton de valve de sécurité — réfrigérateur UGP-3 Top Mount", qty: 2 },
+      { sku: "UGPP-DL10001070", desc: "Unique Porte de congélateur (assemblage) — réfrigérateur UGP-3 Top Mount", qty: 1 },
+      { sku: "UGPP-DL08502007", desc: "Unique Balcon (bas) — réfrigérateur UGP-3 Top Mount", qty: 1 }
+    ]
+  },
+  {
+    // Sales Order confirmation Dometic 101583216 — aucun purorder Sage correspondant trouvé
+    po: "2237",
+    supplier: "dometic",
+    poDate: "2026-06-09",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Confirmé via Sales Order confirmation Dometic 101583216 — expédition prévue 2026-06-10 (à vérifier au portail, date dépassée)",
+    items: [
+      { sku: "d9630002554", desc: "Dometic Climatiseur de toit FA95 Platinum — pack simple, noir", qty: 14 }
+    ]
+  },
+  {
+    // Backorder identifié via Sales Order confirmation Dometic 101582589 — absent de la carte 2309 (déjà expédiée en entier)
+    po: "2309",
+    supplier: "dometic",
+    poDate: "2026-06-04",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Reste de la commande (Sales Order confirmation Dometic 101582589) — expédition prévue 2026-09-08 et 2026-10-05",
+    items: [
+      { sku: "d9620017662", desc: "Dometic RTX 2000W Onduleur pur sinus — blanc, R32 (marché É.-U.)", qty: 4 },
+      { sku: "DNRX0060C", desc: "Dometic Réfrigérateur 12V/24V — 55 L / 2 pi³ Dark Silver", qty: 2 }
+    ]
+  },
+  {
+    // Backorder identifié via Sales Order confirmation Dometic 101590670 — absent de la carte 2325 (déjà expédiée en entier)
+    po: "2325",
+    supplier: "dometic",
+    poDate: "2026-06-26",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Reste de la commande (Sales Order confirmation Dometic 101590670) — expédition prévue 2026-09-24",
+    items: [
+      { sku: "d9620017662", desc: "Dometic RTX 2000W Onduleur pur sinus — blanc, R32 (marché É.-U.)", qty: 3 }
+    ]
+  },
+  {
+    // Backorder identifié via Sales Order confirmation Dometic 101591892 — absent de la carte 2326 (déjà expédiée en entier)
+    po: "2326",
+    supplier: "dometic",
+    poDate: "2026-06-30",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Reste de la commande (Sales Order confirmation Dometic 101591892) — expédition prévue 2026-09-28",
+    items: [
+      { sku: "d9620017662", desc: "Dometic RTX 2000W Onduleur pur sinus — blanc, R32 (marché É.-U.)", qty: 1 }
     ]
   }
 ];
