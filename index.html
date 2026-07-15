@@ -320,8 +320,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-15"; // Nettoyage commentaire 2326 : confirmation Mathieu, "RTX 2000W Onduleur" n'existe pas
-const LAST_UPDATED_TIME = "14:01"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-15"; // Receptions completes BC 2333, 2322, 2330 (3 factures Sage) -- cartes supprimees
+const LAST_UPDATED_TIME = "15:30"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -966,23 +966,6 @@ const ORDERS = [
     ]
   },
   {
-    po: "2333",
-    supplier: "victron",
-    poDate: "2026-07-06",
-    shipDate: "2026-07-07",   // confirmation d'expédition Victron (E-Order 8787418)
-    carrier: "AIT",
-    invoice: null,
-    receivedDate: null,
-    tagline: "Commande Victron 8787418 — expédiée en entier (1 boîte, 127 lb)",
-    items: [
-      { sku: "ORI124838110", desc: "Victron Orion-Tr 12/48-8A (380W) — convertisseur DC-DC isolé", qty: 5 },
-      { sku: "ORI241260020", desc: "Victron Orion 24/12-60 — convertisseur DC-DC IP20 (Uout=13.2V)", qty: 10 },
-      { sku: "BPC121715106", desc: "Victron Blue Smart IP67 — chargeur 12/17(1) 120V NEMA 5-15", qty: 1 },
-      { sku: "SCC115110511", desc: "Victron SmartSolar MPPT 150/100-MC4 VE.Can", qty: 3 },
-      { sku: "SCC110050210", desc: "Victron SmartSolar MPPT 100/50", qty: 5 }
-    ]
-  },
-  {
     // Groupage RADIUS — départ 3 juillet (facture freight C00075773, 6 palettes / 2 626 lb)
     po: "2298 / 2305",
     supplier: "nova-kool",
@@ -1147,23 +1130,6 @@ const ORDERS = [
     ]
   },
   {
-    po: "2322",
-    supplier: "pines",
-    poDate: "2026-06-25",
-    shipDate: "2026-07-08",
-    invoice: "11127",
-    receivedDate: null,
-    tagline: "Expédiée en entier — 16 unités",
-    items: [
-      { sku: "CUPN1210", desc: "Cooling unit neuf — Norcold 1210/1211 (garantie 3 ans)", qty: 4 },
-      { sku: "CUPN1292", desc: "Cooling unit neuf — Dometic NDR1292/7732 (garantie 3 ans)", qty: 1 },
-      { sku: "CU811-2T45", desc: "Cooling unit remis à neuf — Norcold N841/821/811 (garantie 3 ans)", qty: 3 },
-      { sku: "CU2652", desc: "Cooling unit remis à neuf — Dometic RM2652/3662/2662/2672 (garantie 3 ans)", qty: 4 },
-      { sku: "CUPN2652", desc: "Cooling unit neuf — Dometic 2652 (garantie 3 ans)", qty: 2 },
-      { sku: "CU2852", desc: "Cooling unit remis à neuf — Dometic RM2852/2862/3862/NDR1062/2872 (garantie 3 ans)", qty: 2 }
-    ]
-  },
-  {
     po: "2323",
     supplier: "unique",
     poDate: "2026-06-26",
@@ -1269,31 +1235,6 @@ const ORDERS = [
     tagline: "Expédiée en entier",
     items: [
       { sku: "UGP-DL38801070", desc: "Unique Balcon de porte réfrigérateur/congélateur — UGP-14", qty: 2 }
-    ]
-  },
-  {
-    // BC 2330 : l'envoi 8787133 (1 palette, 707 lb, expédié le 7 juillet) est arrivé et a été reçu dans Sage.
-    // Reste = backorder Victron (capture Sage du 11 juillet, colonne Reste comm.)
-    po: "2330",
-    supplier: "victron",
-    poDate: "2026-07-03",
-    shipDate: null,
-    invoice: null,
-    receivedDate: null,
-    tagline: "Partiellement expédié, en attente des items suivants",
-    items: [
-      { sku: "SCC110030210", desc: "Victron SmartSolar MPPT 100/30", qty: 10 },
-      { sku: "BPC121031104R", desc: "Victron Blue Smart IP65 — chargeur 12/10(1) 120V NEMA 1-15P", qty: 10 },
-      { sku: "SCC115110411", desc: "Victron SmartSolar MPPT 150/100-Tr VE.Can", qty: 2 },
-      { sku: "CYR010400000", desc: "Victron Cyrix-i 12/24V-400A — coupleur de batteries intelligent", qty: 3 },
-      { sku: "ITR000100001", desc: "Victron Autotransformateur 120/240V-32A", qty: 1 },
-      { sku: "PIN122122500", desc: "Victron Phoenix — onduleur 12/1200 120V VE.Direct NEMA 5-15R", qty: 3 },
-      { sku: "CIP138060020", desc: "Victron MEGA-fuse 60A/80V (paquet de 5)", qty: 1 },
-      { sku: "SHU050150050", desc: "Victron SmartShunt 500A/50mV", qty: 1 },
-      { sku: "CIP138300020", desc: "Victron MEGA-fuse 300A/80V (paquet de 5)", qty: 1 },
-      { sku: "ASS030710118", desc: "Victron Câble VE.Can vers CAN-bus BMS type A — 1.8 m", qty: 5 },
-      { sku: "ASS030064951", desc: "Victron Câble RJ45 UTP — 1.8 m", qty: 2 },
-      { sku: "PMP482505010", desc: "Victron MultiPlus-II 48/5000/70-50 230V", qty: 1 }
     ]
   },
   {
