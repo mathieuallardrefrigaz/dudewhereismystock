@@ -320,8 +320,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-15"; // Receptions Sage BC 2309/2326 (3 factures) + correction desc/qte d9620017662 sur 2326
-const LAST_UPDATED_TIME = "13:47"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-15"; // Nettoyage commentaire 2326 : confirmation Mathieu, "RTX 2000W Onduleur" n'existe pas
+const LAST_UPDATED_TIME = "14:01"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -1377,9 +1377,8 @@ const ORDERS = [
     ]
   },
   {
-    // CORRECTION 15 juillet (captures Sage factures 62201384/62201378) : purorder_2326.pdf confirme d9620017662 = Climatiseur RTX 2000 (pas un onduleur), Comm. = 1 (pas 2).
-    // La description/quantite precedente ("RTX 2000W Onduleur", x2) venait d'une lecture erronee de la Sales Order Confirmation 101591892 le 15 juillet au matin -- corrigee ici sur la base du BC Sage, source plus fiable.
-    // A CONFIRMER avec Mathieu : ecart avec son message du 15 juillet (2 unites) -- possible confusion avec une autre commande.
+    // CORRECTION 15 juillet (captures Sage factures 62201384/62201378, confirmee par Mathieu) : d9620017662 = Climatiseur RTX 2000 Blanc 12V, qte 1 (Comm. sur purorder_2326.pdf).
+    // L'ancienne description "RTX 2000W Onduleur pur sinus" x2 (ajoutee le 15 juillet matin par erreur de lecture d'un PDF) ne correspondait a aucun produit reel -- ne pas la reintroduire.
     po: "2326",
     supplier: "dometic",
     poDate: "2026-06-30",
