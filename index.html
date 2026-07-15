@@ -320,8 +320,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-15"; // Clarte BC 2273 : tagline de la carte expediee ne mentionne plus "reste" (ambigu avec la carte reste separee)
-const LAST_UPDATED_TIME = "15:47"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-15"; // Run 16h : nouveau BC 2348 (Batteries du Quebec) + revision BC 2342 (Bismar, ajout 4 chauffages Martin Propane + qte B650012/B741080 corrigees)
+const LAST_UPDATED_TIME = "16:06"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -622,7 +622,8 @@ const ORDERS = [
     ]
   },
   {
-    // purorder_2342.pdf (reçu par courriel le 12 juillet) — régulateurs et boyaux propane
+    // BonDeCommande Refrigaz_2342.pdf (revision deposee le 15 juillet) — BC amende par Sage : B650012 4->5,
+    // B741080 50->60, + 4 chauffages Martin Propane ajoutes (lignes internes sans SKU pour ateliers specifiques omises)
     po: "2342",
     supplier: "bismar",
     poDate: "2026-07-09",
@@ -630,7 +631,7 @@ const ORDERS = [
     invoice: null,
     receivedDate: null,
     items: [
-      { sku: "B650012", desc: "Régulateur vert 180 000 BTU avec poignée", qty: 4 },
+      { sku: "B650012", desc: "Régulateur vert 180 000 BTU avec poignée", qty: 5 },
       { sku: "B660017", desc: "Boyau 1/4 × 48 po", qty: 1 },
       { sku: "B660075", desc: "Boyau 1/4 × 48 po avec poignée", qty: 2 },
       { sku: "B660007", desc: "Boyau 1/4 × 36 po", qty: 1 },
@@ -639,8 +640,12 @@ const ORDERS = [
       { sku: "B730115", desc: "Régulateur automatique 476 000 BTU", qty: 2 },
       { sku: "B730215", desc: "Régulateur automatique 2 stages 280 000 BTU", qty: 1 },
       { sku: "B741168", desc: "Connecteur 3/8 MFL × 1/2 MPT", qty: 20 },
-      { sku: "B741080", desc: "Raccord union 3/8 – 3/8", qty: 50 },
-      { sku: "B741711", desc: "Capuchon 3/8 Flare", qty: 5 }
+      { sku: "B741080", desc: "Raccord union 3/8 – 3/8", qty: 60 },
+      { sku: "B741711", desc: "Capuchon 3/8 Flare", qty: 5 },
+      { sku: "B766008", desc: "Chauffage Martin Propane DV 8 000 BTU", qty: 3 },
+      { sku: "B766012", desc: "Chauffage Martin Propane DV 11 000 BTU avec fenêtre", qty: 5 },
+      { sku: "B766021", desc: "Chauffage Martin Propane DV 20 000 BTU", qty: 3 },
+      { sku: "B766108", desc: "Thermocouple MDV 8-11-20", qty: 1 }
     ]
   },
   {
@@ -1318,6 +1323,19 @@ const ORDERS = [
     tagline: "Partiellement expédié, en attente des items suivants",
     items: [
       { sku: "d9620017662", desc: "Dometic Climatiseur RTX 2000 Blanc 12V — 6824 BTU", qty: 1 }
+    ]
+  },
+  {
+    // purorder_2348.pdf (deposee le 15 juillet) — batteries scellees AGM
+    po: "2348",
+    supplier: "batteries-quebec",
+    poDate: "2026-07-15",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    items: [
+      { sku: "sbatt425AGM", desc: "Batterie DM 425Ah 6V scellée AGM", qty: 6 },
+      { sku: "sbatt355AGM", desc: "Batterie DM 335Ah 6V scellée AGM", qty: 2 }
     ]
   }
 ];
