@@ -320,8 +320,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-15"; // Fusion carte BC 2309 : doublon DNRX0060C (carte "reste" en trop) retire, ne garde que la carte confirmee expediee (portail Dometic)
-const LAST_UPDATED_TIME = "13:17"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-15"; // Receptions Sage BC 2309/2326 (3 factures) + correction desc/qte d9620017662 sur 2326
+const LAST_UPDATED_TIME = "13:47"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -886,16 +886,21 @@ const ORDERS = [
     ]
   },
   {
+    // Facture Sage 62170763 (24 juin) : DNRX0060C x2 recu en entier -> carte expediee retiree.
+    // Reste = 5 lignes du purorder_2309.pdf jamais ajoutees au dashboard (RTX 2000 AC d9620017662 x4 deja confirme recu par Mathieu le 15 juillet, non repris ici).
     po: "2309",
     supplier: "dometic",
     poDate: "2026-06-04",
-    shipDate: "2026-06-24",
-    tracking: "I327207321",
+    shipDate: null,
     invoice: null,
     receivedDate: null,
-    tagline: "Expédiée en entier — confirmé via le portail Dometic For Business",
+    tagline: "Partiellement expédié, en attente des items suivants",
     items: [
-      { sku: "DNRX0060C", desc: "Dometic Réfrigérateur 12V/24V — 55 L / 2 pi³ Dark Silver", qty: 2 }
+      { sku: "d9620015927", desc: "Dometic Thermopompe de toit FreshJet 5 Series Mechanical — 15 000 BTU, profil bas", qty: 2 },
+      { sku: "d9105304487", desc: "Dometic Boîte de distribution d'air universelle (application non gainée)", qty: 2 },
+      { sku: "d9930000009", desc: "Dometic Kit ADB — contrôle thermostat manuel intégré pour climatiseur", qty: 1 },
+      { sku: "dDM2872L", desc: "Dometic Réfrigérateur propane/120V — 227 L / 8 pi³ contour noir, pentures à gauche", qty: 1 },
+      { sku: "DNRX0080C", desc: "Dometic Réfrigérateur 12V/24V — 75 L / 2.7 pi³ Dark Silver, pentures à droite", qty: 1 }
     ]
   },
   {
@@ -920,11 +925,11 @@ const ORDERS = [
     receivedDate: null,
     tagline: "Expédiée en entier en 5 envois distincts (6 au 13 juillet) — confirmé via le portail Dometic For Business",
     items: [
-      { sku: "d9100300152", desc: "Dometic RTX 2000 — kit d'installation 12V", qty: 2 },
+      // d9100300152 (x2, facture 62201384) recu en entier le 15 juillet -> retire.
       { sku: "d9620017217", desc: "Dometic Freshjet 5 Noir — thermopompe 15 000 BTU", qty: 1 },
       { sku: "d4471011652", desc: "Dometic Freshjet — kit thermostat mural thermopompe", qty: 1 },
       { sku: "d9105304487", desc: "Dometic Universal Air Distribution Box (application non gainée)", qty: 1 },
-      { sku: "dDM2672L", desc: "Dometic Réfrigérateur propane/120V — 173 L / 6 pi³ contour noir, pentures à gauche", qty: 2 },
+      // dDM2672L (x2, facture 62201378) recu en entier le 15 juillet -> retire.
       { sku: "dDM2672R", desc: "Dometic Réfrigérateur propane/120V — 173 L / 6 pi³ contour noir, pentures à droite", qty: 2 },
       { sku: "dDM2872L", desc: "Dometic Réfrigérateur propane/120V — 227 L / 8 pi³ contour noir, pentures à gauche", qty: 1 },
       { sku: "DNRX0080C", desc: "Dometic Réfrigérateur 12V/24V — 75 L / 2.7 pi³ Dark Silver, pentures à droite", qty: 3 },
@@ -1372,16 +1377,18 @@ const ORDERS = [
     ]
   },
   {
-    // Backorder identifié via Sales Order confirmation Dometic 101591892 — absent de la carte 2326 (déjà expédiée en entier). Quantité confirmée à 2 unités par Mathieu le 15 juillet (pas encore reçues).
+    // CORRECTION 15 juillet (captures Sage factures 62201384/62201378) : purorder_2326.pdf confirme d9620017662 = Climatiseur RTX 2000 (pas un onduleur), Comm. = 1 (pas 2).
+    // La description/quantite precedente ("RTX 2000W Onduleur", x2) venait d'une lecture erronee de la Sales Order Confirmation 101591892 le 15 juillet au matin -- corrigee ici sur la base du BC Sage, source plus fiable.
+    // A CONFIRMER avec Mathieu : ecart avec son message du 15 juillet (2 unites) -- possible confusion avec une autre commande.
     po: "2326",
     supplier: "dometic",
     poDate: "2026-06-30",
     shipDate: null,
     invoice: null,
     receivedDate: null,
-    tagline: "Reste de la commande (Sales Order confirmation Dometic 101591892) — expédition prévue 2026-09-28",
+    tagline: "Partiellement expédié, en attente des items suivants",
     items: [
-      { sku: "d9620017662", desc: "Dometic RTX 2000W Onduleur pur sinus — blanc, R32 (marché É.-U.)", qty: 2 }
+      { sku: "d9620017662", desc: "Dometic Climatiseur RTX 2000 Blanc 12V — 6824 BTU", qty: 1 }
     ]
   }
 ];
