@@ -799,6 +799,8 @@ const ORDERS = [
     ]
   },
   {
+    // BC 2273 reconcilié en entier le 15 juillet (rattrapage facture C00298412, 28 mai, jamais traitée) —
+    // items jamais expédiés (131525, 121350) + soldes restants de 120910/121550/121140 après C00298182+C00298412
     po: "2273",
     supplier: "brewers",
     poDate: "2026-04-20",
@@ -808,20 +810,26 @@ const ORDERS = [
     tagline: "Partiellement expédié, en attente des items suivants",
     items: [
       { sku: "BS5026", desc: "Blue Sea Fuse Block ATO 12 circuits avec mise à la terre", qty: 20 },
-      { sku: "BS2127", desc: "Blue Sea MAXIBUS 4 x 5/16 STUD", qty: 10 }
+      { sku: "BS2127", desc: "Blue Sea MAXIBUS 4 x 5/16 STUD", qty: 10 },
+      { sku: "131525", desc: "Ancor Câble marin #14/3 — bobine 250 pieds", qty: 2 },
+      { sku: "121350", desc: "Ancor Câble marin #12/2 — bobine 500 pieds", qty: 1 },
+      { sku: "120910", desc: "Ancor Câble marin 8/2 — 100 pieds", qty: 9 },
+      { sku: "121550", desc: "Ancor Câble marin #14/2 — bobine 500 pieds", qty: 3 },
+      { sku: "121140", desc: "Ancor Câble marin #10/2 — bobine 400 pieds", qty: 4 }
     ]
   },
   {
     po: "2273",
     supplier: "brewers",
     poDate: "2026-04-20",
-    shipDate: "2026-05-15",
-    invoice: "C00298182",
+    shipDate: "2026-05-28",
+    invoice: "C00298182, C00298412",
     receivedDate: null,
-    tagline: "Expédition partielle (facture C00298182, 15 mai) — reste 2 items à venir",
+    tagline: "Expédition partielle (factures C00298182 15 mai et C00298412 28 mai) — reste plusieurs items à venir",
     items: [
       { sku: "120910", desc: "Ancor Câble marin 8/2 — 100 pieds", qty: 4 },
-      { sku: "121550", desc: "Ancor Câble marin #14/2 — bobine 500 pieds", qty: 2 }
+      { sku: "121550", desc: "Ancor Câble marin #14/2 — bobine 500 pieds", qty: 2 },
+      { sku: "121140", desc: "Ancor Câble marin #10/2 — bobine 400 pieds", qty: 3 }
     ]
   },
   {
@@ -1159,6 +1167,25 @@ const ORDERS = [
     tagline: "Partiellement expédié, en attente des items suivants",
     items: [
       { sku: "UGP-BCD-LL", desc: "Unique Ampoule DEL — réfrigérateurs UGP-108L/170L/260L/370L", qty: 2 }
+    ]
+  },
+  {
+    // Facture 023650 (S.O. SO-140348, jamais traitée) — rattrapage 15 juillet
+    po: "2323",
+    supplier: "unique",
+    poDate: "2026-06-26",
+    shipDate: "2026-07-03",
+    carrier: "CANADA POST",
+    invoice: "023650",
+    receivedDate: null,
+    tagline: "Expédition partielle (facture 023650, S.O. SO-140348, 3 juillet) — reste 2× ampoule DEL à venir",
+    items: [
+      { sku: "ugpp CBP UB04-2", desc: "Unique Kit allumeur Piezo", qty: 2 },
+      { sku: "ugpp DL00013897", desc: "Unique Thermostat — réfrigérateur UGP-290L/470L 12/24 DC", qty: 2 },
+      { sku: "ugpp DL18301371", desc: "Unique Module d'allumage électronique — réfrigérateurs 2/3/6C/8C/10C", qty: 2 },
+      { sku: "ugpp DL010222501465", desc: "Unique Valve magnétique — UGP-2/3/6C/8C/10C", qty: 1 },
+      { sku: "ugpp DWWS0231", desc: "Unique Pied en caoutchouc — grille cuisinière UGP-20G/24G/30G Classic", qty: 1 },
+      { sku: "UGP-BCD-LL", desc: "Unique Ampoule DEL — réfrigérateurs UGP-108L/170L/260L/370L", qty: 6 }
     ]
   },
   {
