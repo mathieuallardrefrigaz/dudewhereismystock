@@ -320,8 +320,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-15"; // Receptions completes BC 2333, 2322, 2330 (3 factures Sage) -- cartes supprimees
-const LAST_UPDATED_TIME = "15:30"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-15"; // BC 2316 : reconciliation complete, expedie en entier (BS2151 et BS5025B recuperes) -- carte reste retiree. BC 2273 deja a jour.
+const LAST_UPDATED_TIME = "15:42"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -1164,22 +1164,10 @@ const ORDERS = [
     po: "2316",
     supplier: "brewers",
     poDate: "2026-06-18",
-    shipDate: null,
-    invoice: null,
-    receivedDate: null,
-    tagline: "Partiellement expédié, en attente des items suivants",
-    items: [
-      { sku: "BS2151", desc: "Blue Sea Bloc fusible Terminal 300 A — 2 fusibles", qty: 5 }
-    ]
-  },
-  {
-    po: "2316",
-    supplier: "brewers",
-    poDate: "2026-06-18",
     shipDate: "2026-06-30",
     invoice: "C00298916, C00298964, C00299036",
     receivedDate: null,
-    tagline: "Expédié en 3 envois distincts (23, 25 et 30 juin) — reste 1 item (bloc fusible 300 A) à venir",
+    tagline: "Expédié en entier en 3 envois distincts (23, 25 et 30 juin)",
     items: [
       { sku: "131110", desc: "Ancor Câble marin plat 10/3 — triplex", qty: 2 },
       { sku: "131510", desc: "Ancor Câble marin plat 14/3 — triplex", qty: 4 },
@@ -1191,7 +1179,8 @@ const ORDERS = [
       { sku: "BS5190", desc: "Blue Sea Fusible Terminal 300 A", qty: 10 },
       { sku: "BS5196", desc: "Blue Sea Bloc fusible MRBF 250 A — 3 circuits communs", qty: 5 },
       { sku: "BS5065", desc: "Blue Sea Porte-fusible étanche", qty: 10 },
-      { sku: "BS5025B", desc: "Blue Sea Bloc fusible ATO — vrac", qty: 5 }
+      { sku: "BS5025B", desc: "Blue Sea Bloc fusible ATO — vrac", qty: 5 },
+      { sku: "BS2151", desc: "Blue Sea Bloc fusible Terminal 300 A — 2 fusibles", qty: 5 }
     ]
   },
   {
