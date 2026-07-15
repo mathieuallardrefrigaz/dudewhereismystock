@@ -320,8 +320,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-15"; // Correction backorders Dometic RTX 2000W : 2309 (4x recu), 2325 (tout recu, carte retiree), 2326 (2x confirme non recu)
-const LAST_UPDATED_TIME = "09:48"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-15"; // Fusion carte BC 2309 : doublon DNRX0060C (carte "reste" en trop) retire, ne garde que la carte confirmee expediee (portail Dometic)
+const LAST_UPDATED_TIME = "13:17"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -1369,19 +1369,6 @@ const ORDERS = [
     tagline: "Confirmé via Sales Order confirmation Dometic 101583216 — expédition prévue 2026-06-10 (à vérifier au portail, date dépassée)",
     items: [
       { sku: "d9630002554", desc: "Dometic Climatiseur de toit FA95 Platinum — pack simple, noir", qty: 14 }
-    ]
-  },
-  {
-    // Backorder identifié via Sales Order confirmation Dometic 101582589 — absent de la carte 2309 (déjà expédiée en entier). RTX 2000W (4 unités) confirmé reçu par Mathieu le 15 juillet — retiré.
-    po: "2309",
-    supplier: "dometic",
-    poDate: "2026-06-04",
-    shipDate: null,
-    invoice: null,
-    receivedDate: null,
-    tagline: "Reste de la commande (Sales Order confirmation Dometic 101582589) — expédition prévue 2026-10-05",
-    items: [
-      { sku: "DNRX0060C", desc: "Dometic Réfrigérateur 12V/24V — 55 L / 2 pi³ Dark Silver", qty: 2 }
     ]
   },
   {
