@@ -320,8 +320,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-15"; // Run 16h : nouveau BC 2348 (Batteries du Quebec) + revision BC 2342 (Bismar, ajout 4 chauffages Martin Propane + qte B650012/B741080 corrigees)
-const LAST_UPDATED_TIME = "16:06"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-16"; // Logo Bismar (produitsmartin.ca) ajoute
+const LAST_UPDATED_TIME = "05:27"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -467,8 +467,8 @@ const SUPPLIERS = {
     transitMin: 1,     // transit Boucherville → Granby
     transitMax: 2,
     color: "#52525b",
-    initials: "BI"
-    // logo à ajouter (recette Chrome) — fallback initiales en attendant
+    initials: "BI",
+    logo: "logos/bismar.png" // logo "martin" (produitsmartin.ca) -- marque grand public de Bismar inc
   },
   "batteries-quebec": {
     name: "Batteries du Québec",
