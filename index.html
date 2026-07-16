@@ -154,6 +154,11 @@
   .badge.imminent { background: #fef3c7; color: var(--amber); }
   .badge.late { background: #fee2e2; color: var(--red); }
   .badge.received { background: #dcfce7; color: var(--green); }
+  .badge.anomaly {
+    background: #fee2e2; color: var(--red); font-weight: 800;
+    white-space: normal; text-align: right; max-width: 380px;
+    line-height: 1.35; border-radius: 10px; padding: 8px 14px;
+  }
 
   /* ---- Journey stepper : PO → Shipping → Route → Arrivée ---- */
   .journey {
@@ -320,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-16"; // Carte 2316 GoJIT (texte anomalie + epinglee en bas), meme pattern que 2273
-const LAST_UPDATED_TIME = "06:21"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-16"; // Badge rouge gras pour les cartes anomalie (remplace le badge "En retard" par le message complet)
+const LAST_UPDATED_TIME = "06:26"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -1314,6 +1319,7 @@ const ORDERS = [
     invoice: "C00298182",
     receivedDate: null,
     bottom: true,
+    anomaly: true,
     tagline: "Situation anormale, valider Cynthia car matériel expédié GoJIT le 15 mai, livré sur plateforme GoJIT mais pas reçu dans Sage",
     items: [
       { sku: "120910", desc: "Ancor Câble marin 8/2 — 100 pieds", qty: 4 },
@@ -1331,6 +1337,7 @@ const ORDERS = [
     invoice: "C00298916, C00298964, C00299036",
     receivedDate: null,
     bottom: true,
+    anomaly: true,
     tagline: "Situation anormale, valider Cynthia car matériel expédié GoJIT le 23 juin, livré sur plateforme GoJIT mais pas reçu dans Sage",
     items: [
       { sku: "131110", desc: "Ancor Câble marin plat 10/3 — triplex", qty: 2 },
@@ -1463,7 +1470,9 @@ function orderStatus(o) {
     approx = false;
   }
   let status, label, cls;
-  if (o.receivedDate) {
+  if (o.anomaly) {
+    status = "anomaly"; label = "⚠ " + o.tagline; cls = "anomaly";
+  } else if (o.receivedDate) {
     status = "received"; label = "✓ Reçu le " + fmt(parseDate(o.receivedDate)); cls = "received";
   } else if (!o.shipDate) {
     status = "ordered"; label = "💻 Commandé — en attente d'expédition"; cls = "ordered";
@@ -1637,7 +1646,7 @@ function renderList(visible) {
           ${o.invoice ? `<span>Facture fournisseur <b>${hl(o.invoice)}</b></span>` : ""}
           ${(o.carrier || sup.carrier) !== "—" ? `<span>Transporteur <b>${o.carrier || sup.carrier}</b></span>` : ""}
           ${o.tracking ? `<span>N° de suivi <b>${o.trackingUrl ? `<a href="${o.trackingUrl}" target="_blank" rel="noopener" style="color:inherit">${hl(o.tracking)}</a>` : hl(o.tracking)}</b></span>` : ""}
-          ${o.tagline ? `<span style="color:#6d28d9;font-weight:600">${o.tagline}</span>` : ""}
+          ${o.tagline && !o.anomaly ? `<span style="color:#6d28d9;font-weight:600">${o.tagline}</span>` : ""}
         </div>
         <span class="badge ${st.cls}">${st.label}</span>
       </div>
