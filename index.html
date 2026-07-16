@@ -320,8 +320,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-16"; // Logo Bismar (produitsmartin.ca) ajoute
-const LAST_UPDATED_TIME = "05:27"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-16"; // BC 2273 reconcilie (facture Brewers C00297877, 29 avril, jamais vue avant) : 120910/121140/121350/121550 en fait expedies en entier
+const LAST_UPDATED_TIME = "05:49"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -805,8 +805,9 @@ const ORDERS = [
     ]
   },
   {
-    // BC 2273 reconcilié en entier le 15 juillet (rattrapage facture C00298412, 28 mai, jamais traitée) —
-    // items jamais expédiés (131525, 121350) + soldes restants de 120910/121550/121140 après C00298182+C00298412
+    // BC 2273 RECONCILIE le 16 juillet : facture C00297877 (29 avril, jamais deposee/vue avant ce jour) revele que
+    // 120910/121140/121350/121550 etaient DEJA en cours d'expedition depuis avril -- seuls BS5026/BS2127/131525
+    // n'ont jamais ete factures par Brewers. Voir carte "expediee" ci-dessous pour le detail des 3 envois.
     po: "2273",
     supplier: "brewers",
     poDate: "2026-04-20",
@@ -817,25 +818,27 @@ const ORDERS = [
     items: [
       { sku: "BS5026", desc: "Blue Sea Fuse Block ATO 12 circuits avec mise à la terre", qty: 20 },
       { sku: "BS2127", desc: "Blue Sea MAXIBUS 4 x 5/16 STUD", qty: 10 },
-      { sku: "131525", desc: "Ancor Câble marin #14/3 — bobine 250 pieds", qty: 2 },
-      { sku: "121350", desc: "Ancor Câble marin #12/2 — bobine 500 pieds", qty: 1 },
-      { sku: "120910", desc: "Ancor Câble marin 8/2 — 100 pieds", qty: 9 },
-      { sku: "121550", desc: "Ancor Câble marin #14/2 — bobine 500 pieds", qty: 3 },
-      { sku: "121140", desc: "Ancor Câble marin #10/2 — bobine 400 pieds", qty: 4 }
+      { sku: "131525", desc: "Ancor Câble marin #14/3 — bobine 250 pieds", qty: 2 }
     ]
   },
   {
+    // Ledger complet (qty ordered/shipped/balance de chaque facture, cumulatif) :
+    // 120910 13 -> 9 (29 avril, C00297877) -> 13 (15 mai, C00298182) = 13/13 complet
+    // 121550 5  -> 3 (29 avril) -> 5 (15 mai) = 5/5 complet
+    // 121140 7  -> 4 (29 avril) -> 7 (28 mai, C00298412) = 7/7 complet
+    // 121350 1  -> 1 (29 avril) = 1/1 complet (jamais reapparu apres, deja fini en avril)
     po: "2273",
     supplier: "brewers",
     poDate: "2026-04-20",
     shipDate: "2026-05-28",
-    invoice: "C00298182, C00298412",
+    invoice: "C00297877, C00298182, C00298412",
     receivedDate: null,
-    tagline: "Expédition partielle (factures C00298182 15 mai et C00298412 28 mai)",
+    tagline: "Expédié en entier en 3 envois (29 avril, 15 mai et 28 mai)",
     items: [
-      { sku: "120910", desc: "Ancor Câble marin 8/2 — 100 pieds", qty: 4 },
-      { sku: "121550", desc: "Ancor Câble marin #14/2 — bobine 500 pieds", qty: 2 },
-      { sku: "121140", desc: "Ancor Câble marin #10/2 — bobine 400 pieds", qty: 3 }
+      { sku: "120910", desc: "Ancor Câble marin 8/2 — 100 pieds", qty: 13 },
+      { sku: "121140", desc: "Ancor Câble marin #10/2 — bobine 400 pieds", qty: 7 },
+      { sku: "121350", desc: "Ancor Câble marin #12/2 — bobine 500 pieds", qty: 1 },
+      { sku: "121550", desc: "Ancor Câble marin #14/2 — bobine 500 pieds", qty: 5 }
     ]
   },
   {
