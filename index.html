@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-16"; // 2 nouvelles commandes Amazon (Commande passee, 16 juillet) + nouveau flow Power Automate
-const LAST_UPDATED_TIME = "11:34"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-16"; // Anomalie Sprinterfreak SP1809-4999 -- livre confirme Purolator mais pas recu Sage
+const LAST_UPDATED_TIME = "11:52"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -598,9 +598,14 @@ const ORDERS = [
     trackingUrl: "https://www.purolator.com/en/shipping/tracker?pin=520645024834",
     invoice: null,
     receivedDate: null,
-    etaMin: "2026-07-13",  // date de livraison estimée confirmée par Purolator (suivi consulté le 10 juillet)
+    etaMin: "2026-07-13",
     etaMax: "2026-07-13",
-    tagline: "Expédition partielle (11 boîtes) — le 3e ventilateur 7500K suivra dans un envoi séparé",
+    // ANOMALIE constatee le 16 juillet : carte passee "En retard" (etaMax depasse), verification proactive du tracking Purolator
+    // (a la demande de Mathieu : "si une livraison semble en retard, va verifier le tracking") -- statut "Delivered" confirme
+    // Mon. July 13, 2026 2:31 p.m., Granby QC, 1 of 11 Pieces (reverifie en direct sur purolator.com le 16 juillet).
+    anomaly: true,
+    bottom: true,
+    tagline: "Livraison effectuée le 13 juillet (confirmé par Purolator), mais pas encore réceptionné dans Sage!",
     items: [
       { sku: "6200K", desc: "Ventilateur Maxxair 6200K — Manuel — Deluxe — Fumé gris", qty: 9 },
       { sku: "7500K", desc: "Ventilateur Maxxair 7500K — Automatique — Deluxe — Fumé gris — Télécommande", qty: 2 }
