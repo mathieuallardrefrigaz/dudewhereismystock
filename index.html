@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-16"; // Badge rouge gras pour les cartes anomalie (remplace le badge "En retard" par le message complet)
-const LAST_UPDATED_TIME = "06:26"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-16"; // Carte 2323 (facture 023650, Canada Post) : anomalie Sage - stock physiquement recu, jamais logue
+const LAST_UPDATED_TIME = "07:00"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -1139,25 +1139,6 @@ const ORDERS = [
     ]
   },
   {
-    // Facture 023650 (S.O. SO-140348, jamais traitée) — rattrapage 15 juillet
-    po: "2323",
-    supplier: "unique",
-    poDate: "2026-06-26",
-    shipDate: "2026-07-03",
-    carrier: "CANADA POST",
-    invoice: "023650",
-    receivedDate: null,
-    tagline: "Expédition partielle (facture 023650, S.O. SO-140348, 3 juillet) — reste 2× ampoule DEL à venir",
-    items: [
-      { sku: "ugpp CBP UB04-2", desc: "Unique Kit allumeur Piezo", qty: 2 },
-      { sku: "ugpp DL00013897", desc: "Unique Thermostat — réfrigérateur UGP-290L/470L 12/24 DC", qty: 2 },
-      { sku: "ugpp DL18301371", desc: "Unique Module d'allumage électronique — réfrigérateurs 2/3/6C/8C/10C", qty: 2 },
-      { sku: "ugpp DL010222501465", desc: "Unique Valve magnétique — UGP-2/3/6C/8C/10C", qty: 1 },
-      { sku: "ugpp DWWS0231", desc: "Unique Pied en caoutchouc — grille cuisinière UGP-20G/24G/30G Classic", qty: 1 },
-      { sku: "UGP-BCD-LL", desc: "Unique Ampoule DEL — réfrigérateurs UGP-108L/170L/260L/370L", qty: 6 }
-    ]
-  },
-  {
     po: "2325",
     supplier: "dometic",
     poDate: "2026-06-26",
@@ -1352,6 +1333,29 @@ const ORDERS = [
       { sku: "BS5065", desc: "Blue Sea Porte-fusible étanche", qty: 10 },
       { sku: "BS5025B", desc: "Blue Sea Bloc fusible ATO — vrac", qty: 5 },
       { sku: "BS2151", desc: "Blue Sea Bloc fusible Terminal 300 A — 2 fusibles", qty: 5 }
+    ]
+  },
+  {
+    // Facture 023650 (S.O. SO-140348, Canada Post, 3 juillet) -- Mathieu confirme le 16 juillet que ce stock
+    // a ete PHYSIQUEMENT recu mais jamais logue en reception dans Sage (raison inconnue) -- a valider avec Cynthia.
+    // bottom:true = epinglee en toute derniere position (voir tri dans renderList) pour ne pas polluer le haut du dashboard.
+    po: "2323",
+    supplier: "unique",
+    poDate: "2026-06-26",
+    shipDate: "2026-07-03",
+    carrier: "CANADA POST",
+    invoice: "023650",
+    receivedDate: null,
+    bottom: true,
+    anomaly: true,
+    tagline: "Situation anormale, valider Cynthia car matériel expédié par Canada Post le 3 juillet (facture 023650), physiquement reçu mais pas reçu dans Sage",
+    items: [
+      { sku: "ugpp CBP UB04-2", desc: "Unique Kit allumeur Piezo", qty: 2 },
+      { sku: "ugpp DL00013897", desc: "Unique Thermostat — réfrigérateur UGP-290L/470L 12/24 DC", qty: 2 },
+      { sku: "ugpp DL18301371", desc: "Unique Module d'allumage électronique — réfrigérateurs 2/3/6C/8C/10C", qty: 2 },
+      { sku: "ugpp DL010222501465", desc: "Unique Valve magnétique — UGP-2/3/6C/8C/10C", qty: 1 },
+      { sku: "ugpp DWWS0231", desc: "Unique Pied en caoutchouc — grille cuisinière UGP-20G/24G/30G Classic", qty: 1 },
+      { sku: "UGP-BCD-LL", desc: "Unique Ampoule DEL — réfrigérateurs UGP-108L/170L/260L/370L", qty: 6 }
     ]
   }
 ];
