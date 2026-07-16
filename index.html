@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-16"; // BC 2318 retiree (recue en entier, confirme par Mathieu)
-const LAST_UPDATED_TIME = "11:20"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-16"; // 2 nouvelles commandes Amazon (Commande passee, 16 juillet) + nouveau flow Power Automate
+const LAST_UPDATED_TIME = "11:34"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -524,6 +524,38 @@ const ORDERS = [
     tagline: "Commande Amazon.ca n° 701-6078404-7029847 — livraison estimée demain",
     items: [
       { sku: "", desc: "Yaegoo Lot de 4 supports de montage", qty: 20 }
+    ]
+  },
+  {
+    // Amazon.ca -- commande n° 702-5421809-5265020, avis "Commande passée" recu le 16 juillet (courriel auto-confirm@amazon.ca).
+    // Ce courriel regroupait 2 commandes distinctes (702-5421809-5265020 et 702-5862678-7789064) -- separees en 2 cartes.
+    // Pas encore expediee -- etaMin/etaMax = estimation de livraison Amazon affichee au moment de la commande (a confirmer, pas une preuve d'expedition).
+    po: "702-5421809-5265020",
+    supplier: "amazon",
+    poDate: "2026-07-16",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    etaMin: "2026-07-22",  // "Livraison le mercredi" indiqué dans le courriel Amazon
+    etaMax: "2026-07-22",
+    tagline: "Commande Amazon.ca n° 702-5421809-5265020",
+    items: [
+      { sku: "", desc: "Yellow Jacket 42036 Collecteur à manifold ...", qty: 1 }
+    ]
+  },
+  {
+    // Amazon.ca -- commande n° 702-5862678-7789064, avis "Commande passée" recu le 16 juillet (courriel auto-confirm@amazon.ca), meme courriel groupe que 702-5421809-5265020 ci-dessus.
+    po: "702-5862678-7789064",
+    supplier: "amazon",
+    poDate: "2026-07-16",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    etaMin: "2026-07-17",  // "Livré demain" indiqué dans le courriel Amazon
+    etaMax: "2026-07-17",
+    tagline: "Commande Amazon.ca n° 702-5862678-7789064",
+    items: [
+      { sku: "", desc: "Yellow Jacket 49052 Jauge de 6,3 ...", qty: 1 }
     ]
   },
   {
