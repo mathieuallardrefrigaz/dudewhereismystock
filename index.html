@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-17"; // Amazon Yellow Jacket expédié, dernier Maxxair SP1809-4999 expédié (Purolator), freight Nova Kool C00075805 (groupage ELEMENT 16 juil)
-const LAST_UPDATED_TIME = "06:05"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-17"; // Backorder Victron 8788578 confirmé (CIP138200020, expédition prévue 17 juil)
+const LAST_UPDATED_TIME = "16:06"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -762,14 +762,15 @@ const ORDERS = [
     ]
   },
   {
-    // E-Order Victron 8788578 — reste de la commande (backorder, non expédié)
+    // E-Order Victron 8788578 — reste de la commande (backorder confirmé par Victron le 17 juillet, expédition planifiée le 17 juillet — courriel naorderdesk "Backorder Confirmation")
     po: "8788578",
     supplier: "victron",
     poDate: "2026-07-09",
     shipDate: null,
+    leadTime: 6,
     invoice: null,
     receivedDate: null,
-    tagline: "Partiellement expédié, en attente des items suivants",
+    tagline: "Partiellement expédié, en attente des items suivants — backorder confirmé par Victron le 17 juillet, expédition prévue vers le 17 juillet",
     items: [
       { sku: "CIP138200020", desc: "MEGA-fuse 200A/80V (paquet de 5)", qty: 1 }
     ]
