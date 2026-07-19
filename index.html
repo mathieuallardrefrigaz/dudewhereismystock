@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-17"; // Backorder Victron 8788578 confirmé (CIP138200020, expédition prévue 17 juil)
-const LAST_UPDATED_TIME = "16:06"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-19"; // BC 2351 Victron (E-Order 8790816) + Amazon Yellow Jacket 42036 expédié
+const LAST_UPDATED_TIME = "07:20"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -529,16 +529,16 @@ const ORDERS = [
   {
     // Amazon.ca -- commande n° 702-5421809-5265020, avis "Commande passée" recu le 16 juillet (courriel auto-confirm@amazon.ca).
     // Ce courriel regroupait 2 commandes distinctes (702-5421809-5265020 et 702-5862678-7789064) -- separees en 2 cartes.
-    // Pas encore expediee -- etaMin/etaMax = estimation de livraison Amazon affichee au moment de la commande (a confirmer, pas une preuve d'expedition).
+    // Avis "Expédié" recu le 18 juillet 17h30 (shipment-tracking@amazon.ca, .eml depose par le flow) -- aucun numero de suivi, "Livraison le 28 juillet".
     po: "702-5421809-5265020",
     supplier: "amazon",
     poDate: "2026-07-16",
-    shipDate: null,
+    shipDate: "2026-07-18",
     invoice: null,
     receivedDate: null,
-    etaMin: "2026-07-22",  // "Livraison le mercredi" indiqué dans le courriel Amazon
-    etaMax: "2026-07-22",
-    tagline: "Commande Amazon.ca n° 702-5421809-5265020",
+    etaMin: "2026-07-28",  // "Livraison le 28 juillet" indiqué dans le courriel Amazon "Expédié"
+    etaMax: "2026-07-28",
+    tagline: "Commande Amazon.ca n° 702-5421809-5265020 — Expédié le 18 juillet",
     items: [
       { sku: "", desc: "Yellow Jacket 42036 Collecteur à manifold ...", qty: 1 }
     ]
@@ -712,7 +712,10 @@ const ORDERS = [
     tracking: "2580306045164444",
     trackingUrl: "https://www.canadapost-postescanada.ca/track-reperage/en#/search?searchFor=2580306045164444",
     receivedDate: null,
-    tagline: "Expédiée en entier",
+    // Vérification proactive du 19 juillet : Canada Post confirme "Delivered" le 17 juillet 12h01 à Granby (signature disponible) — patron anomaly (règle proactive-tracking-check).
+    anomaly: true,
+    bottom: true,
+    tagline: "Livraison effectuée le 17 juillet à 12h01 (confirmé par Canada Post, signature disponible), mais pas encore réceptionné dans Sage!",
     items: [
       { sku: "UGP-DQT01003", desc: "Vitre de fenêtre de four — cuisinière UGP-30G", qty: 1 },
       { sku: "ugpp DXQJ9903", desc: "Électrode d'allumage brûleur supérieur (arrière G et D) — UGP-20G/24G/30G", qty: 2 },
@@ -773,6 +776,50 @@ const ORDERS = [
     tagline: "Partiellement expédié, en attente des items suivants — backorder confirmé par Victron le 17 juillet, expédition prévue vers le 17 juillet",
     items: [
       { sku: "CIP138200020", desc: "MEGA-fuse 200A/80V (paquet de 5)", qty: 1 }
+    ]
+  },
+  {
+    // BC Sage 2351 (2026-07-16, purorder_2351.pdf) = E-Order Victron 8790816 (order_confirmation deposee par le flow le 17 juillet).
+    // Memes 29 lignes / memes quantites sur les deux documents -- une seule carte (patron 8787133=2330, 8787418=2333).
+    // "Planned for 2026-07-17" sur toutes les lignes de la confirmation = expedition planifiee (pas une expedition!) -- leadTime override 1 j.o.
+    po: "2351",
+    supplier: "victron",
+    poDate: "2026-07-16",
+    shipDate: null,
+    leadTime: 1,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Confirmé par Victron le 17 juillet (E-Order 8790816), expédition planifiée le 17 juillet",
+    items: [
+      { sku: "ORI121217050", desc: "Victron Orion XS 12/12-50A — chargeur de batterie DC-DC", qty: 32 },
+      { sku: "PMP122305122", desc: "Victron MultiPlus-II 12/3000/120-50 — 120V (UL 458)", qty: 28 },
+      { sku: "BPP900450110", desc: "Victron Cerbo GX MK2", qty: 20 },
+      { sku: "SCC110030210", desc: "Victron SmartSolar MPPT 100/30 — contrôleur de charge solaire", qty: 15 },
+      { sku: "LYN060102010", desc: "Victron Lynx Distributor (M10) — distributeur de courant", qty: 15 },
+      { sku: "SCC115070411", desc: "Victron SmartSolar MPPT 150/70-Tr VE.Can", qty: 3 },
+      { sku: "SCC125110412", desc: "Victron SmartSolar MPPT 250/100-Tr VE.Can", qty: 3 },
+      { sku: "ASS030537010", desc: "Victron VE.Bus Smart dongle", qty: 5 },
+      { sku: "SCC125060221", desc: "Victron SmartSolar MPPT 250/60-Tr", qty: 4 },
+      { sku: "BPP900455070", desc: "Victron GX Touch 70 — écran tactile", qty: 2 },
+      { sku: "ORI121210110R", desc: "Victron Orion-Tr 12/12-9A (110W) — convertisseur DC-DC isolé", qty: 4 },
+      { sku: "SHU050150050", desc: "Victron SmartShunt 500A/50mV", qty: 2 },
+      { sku: "CIP138300020", desc: "MEGA-fuse 300A/80V (paquet de 5)", qty: 5 },
+      { sku: "BPC241247106", desc: "Victron Blue Smart IP67 Charger 24/12 — 120V NEMA 5-15", qty: 1 },
+      { sku: "BPC121531104R", desc: "Victron Blue Smart IP65 Charger 12/15 — 120V NEMA 1-15P", qty: 1 },
+      { sku: "BPP900800150", desc: "Victron GX IO-Extender 150", qty: 1 },
+      { sku: "ORI122410020", desc: "Victron Orion 12/24-10 — convertisseur DC-DC IP20", qty: 2 },
+      { sku: "CIP138060020", desc: "MEGA-fuse 60A/80V (paquet de 5)", qty: 3 },
+      { sku: "BPR122022000", desc: "Victron Smart BatteryProtect 12/24V-220A", qty: 1 },
+      { sku: "SHU065150050", desc: "Victron SmartShunt 500A/50mV IP65", qty: 1 },
+      { sku: "ASS030530218", desc: "Câble VE.Direct 1,8 m", qty: 10 },
+      { sku: "CIP138200020", desc: "MEGA-fuse 200A/80V (paquet de 5)", qty: 2 },
+      { sku: "CIP138040020", desc: "MEGA-fuse 40A/80V (paquet de 5)", qty: 2 },
+      { sku: "CYR010120011R", desc: "Victron Cyrix-ct 12/24V-120A — coupleur de batteries intelligent", qty: 1 },
+      { sku: "ASS030064951", desc: "Câble RJ45 UTP 1,8 m", qty: 5 },
+      { sku: "ORI241220200R", desc: "Victron Orion-Tr 24/12-20 (240W) — convertisseur DC-DC", qty: 1 },
+      { sku: "ASS000001000", desc: "Capteur de température QUA/PMP/Venus GX", qty: 2 },
+      { sku: "ASS030530209", desc: "Câble VE.Direct 0,9 m", qty: 10 },
+      { sku: "CIP138150020", desc: "MEGA-fuse 150A/80V (paquet de 5)", qty: 1 }
     ]
   },
   {
