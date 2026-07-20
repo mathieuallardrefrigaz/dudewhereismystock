@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-19"; // BC 2351 Victron (E-Order 8790816) + Amazon Yellow Jacket 42036 expédié
-const LAST_UPDATED_TIME = "07:20"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-20"; // Réceptions Sage : 2316 et 2273 (anomalies GoJIT résolues), 2340 Kisae, 8788578 envoi 1 (BC 2354), 2326 partiel
+const LAST_UPDATED_TIME = "16:10"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -739,33 +739,8 @@ const ORDERS = [
     ]
   },
   {
-    // E-Order Victron 8788578 (aucun BC Sage correspondant) — envoi 1 : avis d'expédition Victron du 10 juillet (26051434, entrepôt AIT, 1 boîte 232 lb, suivi Saia)
-    po: "8788578",
-    supplier: "victron",
-    poDate: "2026-07-09",
-    shipDate: "2026-07-10",
-    carrier: "AIT",
-    tracking: "109212791605",
-    trackingUrl: "https://www.saia.com/track/details;pro=109212791605",
-    invoice: null,
-    receivedDate: null,
-    tagline: "Expédition partielle (1 boîte, 232 lb) — 1× MEGA-fuse 200A suivra dans un envoi séparé",
-    items: [
-      { sku: "ORI121217050", desc: "Victron Orion XS 12/12-50A — chargeur de batterie DC-DC", qty: 32 },
-      { sku: "LYN060102010", desc: "Victron Lynx Distributor (M10) — distributeur de courant", qty: 10 },
-      { sku: "PMP122305102", desc: "Victron MultiPlus-II 12/3000/120-50 — 2x120V (UL 458)", qty: 1 },
-      { sku: "SCC125060221", desc: "Victron SmartSolar MPPT 250/60-Tr — contrôleur de charge solaire", qty: 4 },
-      { sku: "ASS030537010", desc: "Victron VE.Bus Smart dongle", qty: 3 },
-      { sku: "CIP138060020", desc: "MEGA-fuse 60A/80V (paquet de 5)", qty: 3 },
-      { sku: "BPR122022000", desc: "Victron Smart BatteryProtect 12/24V-220A", qty: 2 },
-      { sku: "CIP138300020", desc: "MEGA-fuse 300A/80V (paquet de 5)", qty: 2 },
-      { sku: "ORI122410020", desc: "Victron Orion 12/24-10 — convertisseur DC-DC IP20", qty: 10 },
-      { sku: "ASS030530218", desc: "Câble VE.Direct 1,8 m", qty: 10 },
-      { sku: "ASS030530209", desc: "Câble VE.Direct 0,9 m", qty: 10 }
-    ]
-  },
-  {
     // E-Order Victron 8788578 — reste de la commande (backorder confirmé par Victron le 17 juillet, expédition planifiée le 17 juillet — courriel naorderdesk "Backorder Confirmation")
+    // Envoi 1 (11 lignes, Saia 109212791605) RECU dans Sage le 20 juillet — facture 26051434, receptionne sous NOUVEAU BC Sage 2354 -> carte expediee retiree.
     po: "8788578",
     supplier: "victron",
     poDate: "2026-07-09",
@@ -1027,7 +1002,7 @@ const ORDERS = [
       { sku: "d4471011652", desc: "Dometic Freshjet — kit thermostat mural thermopompe", qty: 1 },
       { sku: "d9105304487", desc: "Dometic Universal Air Distribution Box (application non gainée)", qty: 1 },
       // dDM2672L (x2, facture 62201378) recu en entier le 15 juillet -> retire.
-      { sku: "dDM2672R", desc: "Dometic Réfrigérateur propane/120V — 173 L / 6 pi³ contour noir, pentures à droite", qty: 2 },
+      // dDM2672R (x2, facture 62205323) recu en entier le 20 juillet -> retire.
       { sku: "dDM2872L", desc: "Dometic Réfrigérateur propane/120V — 227 L / 8 pi³ contour noir, pentures à gauche", qty: 1 },
       { sku: "DNRX0080C", desc: "Dometic Réfrigérateur 12V/24V — 75 L / 2.7 pi³ Dark Silver, pentures à droite", qty: 3 },
       { sku: "d97000050757", desc: "Dometic Portable CFX5 75DZ 12V/24V/120V — 75 L / 2.7 pi³ Noir Dual Zone", qty: 1 }
@@ -1323,21 +1298,6 @@ const ORDERS = [
     ]
   },
   {
-    po: "2340",
-    supplier: "kisae",
-    poDate: "2026-07-09",
-    shipDate: null,
-    invoice: null,
-    receivedDate: null,
-    items: [
-      { sku: "BIC1230100", desc: "KISAE Onduleur/chargeur bidirectionnel pur sinus 3000W — chargeur DC 100A 12V avec télécommande", qty: 3 },
-      { sku: "DMT1250", desc: "KISAE Chargeur de batterie DC-DC intelligent — 50A", qty: 10 },
-      { sku: "SW1210", desc: "KISAE Onduleur pur sinus 1000W — 12V", qty: 5 },
-      { sku: "SW1220", desc: "KISAE Onduleur pur sinus 2000W — 12V", qty: 1 },
-      { sku: "SW2420", desc: "KISAE Onduleur pur sinus 2000W — 24V", qty: 2 }
-    ]
-  },
-  {
     po: "2341",
     supplier: "brewers",
     poDate: "2026-07-09",
@@ -1415,53 +1375,6 @@ const ORDERS = [
     items: [
       { sku: "sbatt425AGM", desc: "Batterie DM 425Ah 6V scellée AGM", qty: 6 },
       { sku: "sbatt355AGM", desc: "Batterie DM 335Ah 6V scellée AGM", qty: 2 }
-    ]
-  },
-  {
-    // Facture C00298182 (15 mai) a bien expedie 120910 et 121550 au complet cote Brewers, mais Sage ne montre
-    // que 9/13 et 3/5 recus (Reste comm. 4 et 2). Anomalie signalee par Mathieu le 16 juillet : livre sur la
-    // plateforme du transporteur GoJIT mais jamais receptionne dans Sage -- a valider avec Cynthia.
-    // bottom:true = epinglee en toute derniere position (voir tri dans renderList) pour ne pas polluer le haut du dashboard.
-    po: "2273",
-    supplier: "brewers",
-    poDate: "2026-04-20",
-    shipDate: "2026-05-15",
-    invoice: "C00298182",
-    receivedDate: null,
-    bottom: true,
-    anomaly: true,
-    tagline: "Situation anormale, valider Cynthia car matériel expédié GoJIT le 15 mai, livré sur plateforme GoJIT mais pas reçu dans Sage",
-    items: [
-      { sku: "120910", desc: "Ancor Câble marin 8/2 — 100 pieds", qty: 4 },
-      { sku: "121550", desc: "Ancor Câble marin #14/2 — bobine 500 pieds", qty: 2 }
-    ]
-  },
-  {
-    // Anomalie signalee par Mathieu le 16 juillet (meme pattern que 2273) : livre sur la plateforme du
-    // transporteur GoJIT mais jamais receptionne dans Sage -- a valider avec Cynthia.
-    // bottom:true = epinglee en toute derniere position (voir tri dans renderList) pour ne pas polluer le haut du dashboard.
-    po: "2316",
-    supplier: "brewers",
-    poDate: "2026-06-18",
-    shipDate: "2026-06-30",
-    invoice: "C00298916, C00298964, C00299036",
-    receivedDate: null,
-    bottom: true,
-    anomaly: true,
-    tagline: "Situation anormale, valider Cynthia car matériel expédié GoJIT le 23 juin, livré sur plateforme GoJIT mais pas reçu dans Sage",
-    items: [
-      { sku: "131110", desc: "Ancor Câble marin plat 10/3 — triplex", qty: 2 },
-      { sku: "131510", desc: "Ancor Câble marin plat 14/3 — triplex", qty: 4 },
-      { sku: "113010", desc: "Ancor Câble de batterie #4 — noir", qty: 2 },
-      { sku: "113510", desc: "Ancor Câble de batterie #4 — rouge, bobine 100 pi", qty: 4 },
-      { sku: "112510", desc: "Ancor Câble de batterie #6 — rouge", qty: 1 },
-      { sku: "BS6006", desc: "Blue Sea Interrupteur mini ON/OFF avec bouton — rouge", qty: 30 },
-      { sku: "BS7184", desc: "Blue Sea Disjoncteur 60 A", qty: 30 },
-      { sku: "BS5190", desc: "Blue Sea Fusible Terminal 300 A", qty: 10 },
-      { sku: "BS5196", desc: "Blue Sea Bloc fusible MRBF 250 A — 3 circuits communs", qty: 5 },
-      { sku: "BS5065", desc: "Blue Sea Porte-fusible étanche", qty: 10 },
-      { sku: "BS5025B", desc: "Blue Sea Bloc fusible ATO — vrac", qty: 5 },
-      { sku: "BS2151", desc: "Blue Sea Bloc fusible Terminal 300 A — 2 fusibles", qty: 5 }
     ]
   },
   {
