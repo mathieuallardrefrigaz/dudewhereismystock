@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-21"; // Expéditions Victron du 20 juillet : 2351/8790816 en entier (Saia) + backorder 8788578 (UPS)
-const LAST_UPDATED_TIME = "14:35"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-21"; // Nouvelle commande Amazon.ca 701-5980645-9421035 (RED WOLF cosses de fil)
+const LAST_UPDATED_TIME = "16:05"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -557,6 +557,19 @@ const ORDERS = [
     tagline: "Commande Amazon.ca n° 702-5862678-7789064 — Expédié le 16 juillet",
     items: [
       { sku: "", desc: "Yellow Jacket 49052 Jauge de 6,3 ...", qty: 1 }
+    ]
+  },
+  {
+    // Amazon.ca — commande n° 701-5980645-9421035, avis "Commande passée" reçu le 21 juillet à 14h56 (courriel auto-confirm@amazon.ca)
+    po: "701-5980645-9421035",
+    supplier: "amazon",
+    poDate: "2026-07-21",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Commande Amazon.ca n° 701-5980645-9421035",
+    items: [
+      { sku: "", desc: "RED WOLF Lot de 20 cosses de fil électrique", qty: 2 }
     ]
   },
   {
