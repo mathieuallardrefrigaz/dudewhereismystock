@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-20"; // Réceptions Sage : 2316 et 2273 (anomalies GoJIT résolues), 2340 Kisae, 8788578 envoi 1 (BC 2354), 2326 partiel
-const LAST_UPDATED_TIME = "16:10"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-21"; // Expéditions Victron du 20 juillet : 2351/8790816 en entier (Saia) + backorder 8788578 (UPS)
+const LAST_UPDATED_TIME = "08:05"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -625,7 +625,11 @@ const ORDERS = [
     trackingUrl: "https://www.purolator.com/en/shipping/tracker?pin=520654106670",
     invoice: null,
     receivedDate: null,
-    tagline: "Dernier item de la commande expédié le 16 juillet",
+    // ANOMALIE constatee le 21 juillet (regle de verification proactive des cartes en retard) : Purolator confirme
+    // "Delivered" lundi 20 juillet 2026 13h36 -- livre mais aucune reception Sage sur le BC 2349 a date.
+    anomaly: true,
+    bottom: true,
+    tagline: "Livraison effectuée le 20 juillet (confirmé par Purolator), mais pas encore réceptionné dans Sage!",
     items: [
       { sku: "7500K", desc: "Ventilateur Maxxair 7500K — Automatique — Deluxe — Fumé gris — Télécommande", qty: 1 }
     ]
@@ -739,16 +743,20 @@ const ORDERS = [
     ]
   },
   {
-    // E-Order Victron 8788578 — reste de la commande (backorder confirmé par Victron le 17 juillet, expédition planifiée le 17 juillet — courriel naorderdesk "Backorder Confirmation")
+    // E-Order Victron 8788578 — reste de la commande (backorder confirmé par Victron le 17 juillet).
     // Envoi 1 (11 lignes, Saia 109212791605) RECU dans Sage le 20 juillet — facture 26051434, receptionne sous NOUVEAU BC Sage 2354 -> carte expediee retiree.
+    // EXPEDIE le 20 juillet (avis Shipping 8788578/26053818 du 20 juillet 19h10) : entrepot AIT, transporteur UPS,
+    // 1 boite 1 lb (paquet de fusibles). La reception Sage de ce backorder arrivera sous le BC 2354.
     po: "8788578",
     supplier: "victron",
     poDate: "2026-07-09",
-    shipDate: null,
-    leadTime: 6,
+    shipDate: "2026-07-20",
+    carrier: "UPS (via AIT)",
+    tracking: "1ZA17V470495398956",
+    trackingUrl: "https://www.ups.com/track?track=yes&trackNums=1ZA17V470495398956",
     invoice: null,
     receivedDate: null,
-    tagline: "Partiellement expédié, en attente des items suivants — backorder confirmé par Victron le 17 juillet, expédition prévue vers le 17 juillet",
+    tagline: "Backorder expédié en entier le 20 juillet (envoi 26053818)",
     items: [
       { sku: "CIP138200020", desc: "MEGA-fuse 200A/80V (paquet de 5)", qty: 1 }
     ]
@@ -757,14 +765,19 @@ const ORDERS = [
     // BC Sage 2351 (2026-07-16, purorder_2351.pdf) = E-Order Victron 8790816 (order_confirmation deposee par le flow le 17 juillet).
     // Memes 29 lignes / memes quantites sur les deux documents -- une seule carte (patron 8787133=2330, 8787418=2333).
     // "Planned for 2026-07-17" sur toutes les lignes de la confirmation = expedition planifiee (pas une expedition!) -- leadTime override 1 j.o.
+    // EXPEDIE EN ENTIER le 20 juillet (avis Shipping 8790816/26053836 du 20 juillet 19h10) : les 29 lignes de
+    // l'avis correspondent exactement aux 29 lignes du BC (memes SKU, memes quantites) -> aucun backorder.
+    // Entrepot AIT, transporteur Saia, 2 palettes, 1832 lb.
     po: "2351",
     supplier: "victron",
     poDate: "2026-07-16",
-    shipDate: null,
-    leadTime: 1,
+    shipDate: "2026-07-20",
+    carrier: "Saia (via AIT)",
+    tracking: "10921278460",
+    trackingUrl: "https://www.saia.com/track/details;pro=10921278460",
     invoice: null,
     receivedDate: null,
-    tagline: "Confirmé par Victron le 17 juillet (E-Order 8790816), expédition planifiée le 17 juillet",
+    tagline: "Expédié en entier le 20 juillet (E-Order 8790816, envoi 26053836) — 2 palettes, 1832 lb",
     items: [
       { sku: "ORI121217050", desc: "Victron Orion XS 12/12-50A — chargeur de batterie DC-DC", qty: 32 },
       { sku: "PMP122305122", desc: "Victron MultiPlus-II 12/3000/120-50 — 120V (UL 458)", qty: 28 },
