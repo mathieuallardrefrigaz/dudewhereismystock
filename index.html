@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-21"; // Nouvelle commande Amazon.ca 701-5980645-9421035 (RED WOLF cosses de fil)
-const LAST_UPDATED_TIME = "16:05"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-22"; // BC 2357 Nova Kool (drop-ship) + Amazon 701-5980645-9421035 expedie
+const LAST_UPDATED_TIME = "08:30"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -512,6 +512,19 @@ const SUPPLIERS = {
 
 const ORDERS = [
   {
+    // BC 2357 Nova Kool (BonDeCommande Refrigaz_2357.pdf, deposee 21 juillet par le flow PO) -- commande drop-ship pour le BL-7101, livraison directe Batteries Expert Levis (Patrick).
+    po: "2357",
+    supplier: "nova-kool",
+    poDate: "2026-07-21",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Commande pour le BL-7101 — livraison directe Batteries Expert Lévis, Québec",
+    items: [
+      { sku: "F3800", desc: "Nova Kool Congélateur 12V/24V — 100 L / 3.5 pi³ Noir", qty: 1 }
+    ]
+  },
+  {
     // Amazon.ca — commande n° 701-6078404-7029847, avis "Expédié" reçu le 13 juillet (courriel shipment-tracking@amazon.ca)
     po: "701-6078404-7029847",
     supplier: "amazon",
@@ -560,14 +573,16 @@ const ORDERS = [
     ]
   },
   {
-    // Amazon.ca — commande n° 701-5980645-9421035, avis "Commande passée" reçu le 21 juillet à 14h56 (courriel auto-confirm@amazon.ca)
+    // Amazon.ca — commande n° 701-5980645-9421035, avis "Commande passée" recu le 21 juillet a 14h56, avis "Expédié" recu le 22 juillet a 00h52 (courriel shipment-tracking@amazon.ca) -- aucun numero de suivi dans le courriel, statut "Livre demain".
     po: "701-5980645-9421035",
     supplier: "amazon",
     poDate: "2026-07-21",
-    shipDate: null,
+    shipDate: "2026-07-22",
     invoice: null,
     receivedDate: null,
-    tagline: "Commande Amazon.ca n° 701-5980645-9421035",
+    etaMin: "2026-07-23",
+    etaMax: "2026-07-23",
+    tagline: "Commande Amazon.ca n° 701-5980645-9421035 — Expédié le 22 juillet",
     items: [
       { sku: "", desc: "RED WOLF Lot de 20 cosses de fil électrique", qty: 2 }
     ]
