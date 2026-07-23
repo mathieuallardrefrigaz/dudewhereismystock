@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-23"; // Nouveau BC 2359 Dometic (6 lignes refrigerateurs/CFX5)
-const LAST_UPDATED_TIME = "16:05"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-23"; // BC 2270/2281 recus en entier (confirme par Mathieu) -- carte retiree
+const LAST_UPDATED_TIME = "16:11"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -1141,26 +1141,6 @@ const ORDERS = [
       { sku: "R3000 DC W", desc: "Réfrigérateur marin 12/24 Vdc — 2.6 pi³ (74 L)", qty: 1 },
       { sku: "R3100 DC", desc: "Réfrigérateur marin 12/24 Vdc — 3.1 pi³ (88 L)", qty: 1 },
       { sku: "R1900 DC", desc: "Réfrigérateur marin 12/24 Vdc — 1.9 pi³ (54 L)", qty: 2 }
-    ]
-  },
-  {
-    // Groupage ELEMENT/VAN — départ 26 juin (facture freight C00075749, 5 palettes / 2 701 lb)
-    po: "2270 / 2281",
-    supplier: "nova-kool",
-    poDate: null,             // déposer purorder_2270 / purorder_2281 pour compléter
-    poDetails: [{ po: "2270", date: null }, { po: "2281", date: null }],
-    shipDate: "2026-06-26",
-    carrier: "ELEMENT/VAN",
-    invoice: "C00075730, C00075731, C00075732, C00075736",
-    receivedDate: null,
-    tagline: "Groupage 5 palettes (2 701 lb) — 28 unités",
-    items: [
-      { sku: "RFU6400D DC", desc: "Réfrigérateur/congélateur marin 12/24 Vdc — 6.8 pi³ (193 L) compresseur simple", qty: 10 },
-      { sku: "R4500 DC", desc: "Réfrigérateur marin 12/24 Vdc — 4.3 pi³ (122 L)", qty: 8 },
-      { sku: "RFU7300D DC", desc: "Réfrigérateur/congélateur marin 12/24 Vdc — 6.8 pi³ (193 L) 2 compresseurs, tiroir congélateur", qty: 3 },
-      { sku: "R2600 DC", desc: "Réfrigérateur marin 12/24 Vdc — 2.4 pi³ (68 L)", qty: 3 },
-      { sku: "RFU6800 DC", desc: "Réfrigérateur/congélateur marin 12/24 Vdc — 6.8 pi³ (192 L)", qty: 2 },
-      { sku: "R5810 DC", desc: "Réfrigérateur marin 12/24 Vdc — 5.8 pi³ (165 L)", qty: 2 }
     ]
   },
   {
