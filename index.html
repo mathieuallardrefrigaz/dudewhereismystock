@@ -879,12 +879,47 @@ const ORDERS = [
     supplier: "brewers",
     poDate: "2026-01-12",
     shipDate: null,
-    invoice: null,
+    invoice: "C00299385",
     receivedDate: null,
+    // Facture C00299385 (21 juil., BC 2202) revele un BC BEAUCOUP plus grand que ce qui etait trackee
+    // (28 lignes Blue Sea, compte 1510 inventaire) -- meme lecon que 2273/2309 : un item absent des
+    // cartes existantes n'est pas forcement recu, il peut juste n'avoir jamais ete saisi. BS5026 (20/50)
+    // et BS5191 (10/40) recus sur cette facture -> quantites reduites en consequence. Ancor items (120925,
+    // s#4/0 AncorR) conserves tels quels (non references dans cette facture). A FAIRE VALIDER PAR MATHIEU :
+    // ampleur inhabituelle de la decouverte (28 lignes jamais vues), a confirmer que le N° BR n'est pas une
+    // erreur de saisie Cynthia.
     tagline: "Partiellement expédié, en attente des items suivants",
     items: [
       { sku: "120925", desc: "Ancor Câble marin 8/2 — bobine 250 pieds", qty: 1 },
-      { sku: "s#4/0 AncorR", desc: "Ancor Câble marin rouge #4/0 — 50 pieds (au pied)", qty: 1 }
+      { sku: "s#4/0 AncorR", desc: "Ancor Câble marin rouge #4/0 — 50 pieds (au pied)", qty: 1 },
+      { sku: "BS2127", desc: "Blue Sea MAXIBUS 4 x 5/16 STUD", qty: 15 },
+      { sku: "BS2719", desc: "Blue Sea MAXIBUS Cover pour BS2127/2128", qty: 5 },
+      { sku: "BS5025", desc: "Blue Sea Fuse Block ATO 6 circuits avec mise à la terre", qty: 5 },
+      { sku: "BS5026", desc: "Blue Sea Fuse Block ATO 12 circuits avec mise à la terre", qty: 30 },
+      { sku: "BS5065", desc: "Blue Sea Waterproof Fuse Holder", qty: 10 },
+      { sku: "BS5176", desc: "Blue Sea Terminal Fuse 40A", qty: 5 },
+      { sku: "BS5177", desc: "Blue Sea Terminal Fuse 50A", qty: 2 },
+      { sku: "BS5178", desc: "Blue Sea Terminal Fuse 60A", qty: 2 },
+      { sku: "BS5180", desc: "Blue Sea Terminal Fuse 75A", qty: 2 },
+      { sku: "BS5185", desc: "Blue Sea Terminal Fuse 150A", qty: 5 },
+      { sku: "BS5189", desc: "Blue Sea Terminal Fuse 250A", qty: 20 },
+      { sku: "BS5190", desc: "Blue Sea Terminal Fuse 300A", qty: 20 },
+      { sku: "BS5191", desc: "Blue Sea Fuse Block 300A — 1 Fuse", qty: 30 },
+      { sku: "BS6006", desc: "Blue Sea Switch mini ON/OFF avec bouton rouge", qty: 80 },
+      { sku: "BS7181", desc: "Blue Sea Disjoncteur 30A", qty: 8 },
+      { sku: "BS7184", desc: "Blue Sea Disjoncteur 60A", qty: 80 },
+      { sku: "BS7185", desc: "Blue Sea Disjoncteur 70A", qty: 2 },
+      { sku: "BS7186", desc: "Blue Sea Disjoncteur 80A", qty: 5 },
+      { sku: "BS7188", desc: "Blue Sea Disjoncteur 120A", qty: 2 },
+      { sku: "BS7189", desc: "Blue Sea Disjoncteur 150A", qty: 2 },
+      { sku: "BS7210", desc: "Blue Sea Disjoncteur AA1 15A blanc", qty: 15 },
+      { sku: "BS7216", desc: "Blue Sea Disjoncteur AA1 25A noir", qty: 5 },
+      { sku: "BS7220", desc: "Blue Sea Disjoncteur AA1 30A noir", qty: 10 },
+      { sku: "BS7748", desc: "Blue Sea SafetyHub 150 Fuse Block", qty: 1 },
+      { sku: "BS8077", desc: "Blue Sea Panneau AC Main 30A 120V blanc", qty: 2 },
+      { sku: "BS9003E", desc: "Blue Sea Switch batterie ON/OFF", qty: 2 },
+      { sku: "BS9159", desc: "Blue Sea Paralleling Link Bus M Series", qty: 20 },
+      { sku: "BS9160", desc: "Blue Sea Link Bus ACR", qty: 3 }
     ]
   },
   {
@@ -937,13 +972,26 @@ const ORDERS = [
     supplier: "techspan",
     poDate: "2026-05-08",
     shipDate: null,
-    invoice: null,
+    invoice: "1978676",
     receivedDate: null,
+    // Facture 1978676 (16 juil., BC 2286) revele 7 lignes 1510-inventaire jamais saisies au dashboard.
+    // Aucune reception nouvelle sur les 3 items deja trackes (Reste comm. identique aux quantites deja
+    // affichees). La reception de 200x s#6 lug 1/4 sur cette facture est explicitement notee par Cynthia
+    // "BC-2319 (ancien BC ferme)" -> exclue d'ici, hors perimetre. Items en compte 5258 (Materiel et
+    // quincaillerie -- consommables d'atelier, ex. gaine thermoretractable/connecteurs/serre-cables) omis
+    // du dashboard (pas du stock de revente).
     tagline: "Partiellement expédié, en attente des items suivants",
     items: [
       { sku: "s#4 lug 5/16", desc: "Cosse (lug) #4 — 5/16", qty: 100 },
       { sku: "s#6 lug 5/16", desc: "Cosse (lug) #6 — 5/16", qty: 20 },
-      { sku: "767054c", desc: "Serre-câbles nylon noirs 3/8 x 3/8 (paquet de 100)", qty: 200 }
+      { sku: "767054c", desc: "Serre-câbles nylon noirs 3/8 x 3/8 (paquet de 100)", qty: 200 },
+      { sku: "s#4/0 lug3/8", desc: "Cosse (lug) 4/0 — 3/8", qty: 20 },
+      { sku: "s#2/0 lug 5/16", desc: "Cosse (lug) 2/0 — 5/16", qty: 100 },
+      { sku: "s#2 lug 5/16", desc: "Cosse (lug) #2 — 5/16", qty: 60 },
+      { sku: "s#4 lug 1/4", desc: "Cosse (lug) #4 — 1/4", qty: 100 },
+      { sku: "sbreaker63", desc: "Disjoncteur 60A de surface", qty: 40 },
+      { sku: "s#769758B", desc: "Prise (socket) mâle 110V", qty: 10 },
+      { sku: "s#6 lug 1/4", desc: "Cosse (lug) #6 — 1/4", qty: 20 }
     ]
   },
   {
@@ -1033,23 +1081,6 @@ const ORDERS = [
       { sku: "dDM2872L", desc: "Dometic Réfrigérateur propane/120V — 227 L / 8 pi³ contour noir, pentures à gauche", qty: 1 },
       { sku: "DNRX0080C", desc: "Dometic Réfrigérateur 12V/24V — 75 L / 2.7 pi³ Dark Silver, pentures à droite", qty: 3 },
       { sku: "d97000050757", desc: "Dometic Portable CFX5 75DZ 12V/24V/120V — 75 L / 2.7 pi³ Noir Dual Zone", qty: 1 }
-    ]
-  },
-  {
-    po: "2332",
-    supplier: "unique",
-    poDate: "2026-07-03",
-    shipDate: "2026-07-03",   // commande fournisseur SO-140620 (Ship Date 3 juillet)
-    carrier: "YUSEN LOGISTICS",
-    invoice: null,
-    receivedDate: null,
-    tagline: "Commande fournisseur SO-140620 — expédiée en entier",
-    items: [
-      { sku: "UGP-30G OF1 W", desc: "Unique Cuisinière propane 30 po Classic — Blanc", qty: 6 },
-      { sku: "UGP-170L DC W", desc: "Unique Réfrigérateur 12V/24V — 170 L / 6 pi³ Blanc", qty: 1 },
-      { sku: "UGP-19C CM W", desc: "Unique Réfrigérateur propane — 539 L / 19 pi³ Blanc", qty: 1 },
-      { sku: "UGP-385L CR W", desc: "Unique Réfrigérateur 12V/24V Rétro — 385 L / 14 pi³ Blanc", qty: 1 },
-      { sku: "UGP-8C CM W", desc: "Unique Réfrigérateur propane — 227 L / 8 pi³ Blanc", qty: 1 }
     ]
   },
   {
@@ -1387,19 +1418,13 @@ const ORDERS = [
     supplier: "techspan",
     poDate: "2026-07-16",
     shipDate: null,
-    invoice: null,
+    invoice: "1979318",
     receivedDate: null,
+    // Facture 1979318 (20 juil.) recoit 9 des 12 lignes en entier (Quantite = Comm.) -> carte reduite
+    // aux 3 items encore Reste comm. non nul.
+    tagline: "Partiellement expédié, en attente des items suivants",
     items: [
-      { sku: "s761076", desc: "Composant électrique Techspan", qty: 1 },
-      { sku: "s669953", desc: "Composant électrique Techspan", qty: 3 },
-      { sku: "s762672", desc: "Composant électrique Techspan", qty: 1 },
-      { sku: "s762673", desc: "Composant électrique Techspan", qty: 1 },
-      { sku: "s761246J", desc: "Composant électrique Techspan", qty: 1 },
-      { sku: "s761718", desc: "Composant électrique Techspan", qty: 1 },
       { sku: "s761719", desc: "Composant électrique Techspan", qty: 1 },
-      { sku: "s762582", desc: "Composant électrique Techspan", qty: 1 },
-      { sku: "s769451", desc: "Connexion grise #6", qty: 4 },
-      { sku: "s769427", desc: "Composant électrique Techspan", qty: 4 },
       { sku: "s762272", desc: "Composant électrique Techspan", qty: 5 },
       { sku: "LUGS-4AWG-5/16", desc: "Cosse (lug) 4 AWG 5/16 — achat sur Amazon", qty: 2 }
     ]
