@@ -325,8 +325,8 @@
    DONNÉES — mises à jour via Claude (PO du dossier « Bons de
    commande » SharePoint + factures de shipping des fournisseurs).
    ================================================================ */
-const LAST_UPDATED = "2026-07-24"; // BC 2355 revise (SO-141818 REVISED, ajout UGP-14C, corrige statut Expedie premature
-const LAST_UPDATED_TIME = "06:59"; // heure de la derniere publication (HH:MM, 24h)
+const LAST_UPDATED = "2026-07-24"; // BC 2360 et 2310 (Unique) ajoutes
+const LAST_UPDATED_TIME = "08:35"; // heure de la derniere publication (HH:MM, 24h)
 
 const SUPPLIERS = {
   "nova-kool": {
@@ -1511,6 +1511,39 @@ const ORDERS = [
       { sku: "dDM2872L", desc: "Dometic Réfrigérateur propane/120V — 227 L / 8 pi³ contour noir, pentures à gauche", qty: 1 },
       { sku: "dDM2872R", desc: "Dometic Réfrigérateur propane/120V — 207 L / 8 pi³ contour noir, penture à droite", qty: 2 },
       { sku: "DNRX0060C", desc: "Dometic Réfrigérateur 12V/24V — 55 L / 2 pi³ Dark Silver, pentures à droite", qty: 1 }
+    ]
+  },
+  {
+    // purorder_2360.pdf (BC daté 23 juillet, déposé dans SharePoint) -- 9 électroménagers Unique, aucune expédition/facture reçue.
+    po: "2360",
+    supplier: "unique",
+    poDate: "2026-07-23",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    items: [
+      { sku: "UGP-10C CM W", desc: "Unique Réfrigérateur propane — 275 L / 9.7 pi³ Blanc", qty: 3 },
+      { sku: "UGP-290L W", desc: "Unique Réfrigérateur 12V/24V DC — 290 L / 10.3 pi³ Blanc", qty: 3 },
+      { sku: "UGP-170L W", desc: "Unique Réfrigérateur 12V/24V DC — 170 L / 6 pi³ Blanc", qty: 2 },
+      { sku: "UGP-14C CR CM W", desc: "Unique Réfrigérateur propane rétro — 400 L / 14 pi³ Blanc", qty: 1 },
+      { sku: "UGP-24G OF1 W", desc: "Unique Cuisinière propane Classic — 24 po Blanc", qty: 1 },
+      { sku: "UGP-260L W", desc: "Unique Réfrigérateur 12V/24V DC — 260 L / 9 pi³ Blanc", qty: 1 },
+      { sku: "UGP-275L LG", desc: "Unique Réfrigérateur 12V/24V DC rétro — 275 L / 10 pi³ Vert pâle", qty: 1 },
+      { sku: "UGP-3 SM B", desc: "Unique Réfrigérateur portable propane/120V/12V — 96.3 L / 3.4 pi³ Noir", qty: 1 },
+      { sku: "UGP-6C CM W", desc: "Unique Réfrigérateur propane — 181 L / 6.4 pi³ Blanc", qty: 1 }
+    ]
+  },
+  {
+    // Sales Order SO-141124 (10 juillet, Documents fournisseurs/Unique/Sales Order) -- reference le BC 2310, anterieur au plus vieux BC connu du dashboard (2314). Aucun purorder ni carte existante. Meme profil que le cas 2318 (16 juillet) : carte creee par prudence, A CONFIRMER avec Mathieu si deja recu/livre historiquement.
+    po: "2310",
+    supplier: "unique",
+    poDate: "2026-07-10",
+    shipDate: null,
+    invoice: null,
+    receivedDate: null,
+    tagline: "Pièce de garantie pour Équipements Paquet (Roger Thibouthot) — à confirmer si déjà livrée (BC antérieur au dashboard)",
+    items: [
+      { sku: "UGP-BCD-LL", desc: "Unique Ampoule DEL de garantie — réfrigérateurs UGP-108L/170L/260L/370L", qty: 2 }
     ]
   }
 ];
